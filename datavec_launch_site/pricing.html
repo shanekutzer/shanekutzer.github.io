@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataVec Pricing | Free, Basic, Pro</title>
+  <meta name="description" content="Start free, then scale with Basic and Pro plans for PRYZM and PÜLS." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="DataVec home"><img src="assets/logo.png" alt="DataVec" /></a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="" href="product.html">Product</a><a class="" href="pryzm.html">PRYZM</a><a class="" href="puls.html">PÜLS</a><a class="" href="benchmarks.html">Benchmarks</a><a class="active" href="pricing.html">Pricing</a><a class="" href="docs.html">Docs</a>
+    <a class="nav-cta" href="pricing.html#free">Start free</a>
+  </nav>
+</header>
+  
+<main>
+  <section class="page-hero"><div class="page-hero-inner"><div><span class="eyebrow">Pricing</span><h1>Start free. Scale when the savings are clear.</h1><p>DataVec should be easy to test, easy to benchmark, and easy to justify. Plans include usage, then scale with transparent metering and hard caps.</p></div><div class="mini-panel"><div class="mini-panel-title">Billing model</div><div class="mini-grid"><div><strong>Plan fee</strong><span>Simple monthly entry point.</span></div><div><strong>Included usage</strong><span>Enough to test real workloads.</span></div><div><strong>Metered scale</strong><span>Executions, CPU, memory, builds.</span></div><div><strong>Hard caps</strong><span>No surprise invoices.</span></div></div></div></div></section>
+  <section class="section-pad compact-top">
+<div class="pricing-grid">
+  <article class="price-card" id="free">
+    <h3>Free</h3><p class="price">$0<span>/mo</span></p>
+    <p>For evaluation, demos, and first benchmarks.</p>
+    <ul><li>1 user</li><li>1 project</li><li>100K runtime executions</li><li>100 PRYZM build minutes</li><li>Spend cap locked at $0</li><li>Community support</li></ul>
+    <a class="button secondary full" href="docs.html#quickstart">Start free</a>
+    <p class="price-note">Best for proving the runtime before you pay.</p>
+  </article>
+  <article class="price-card highlighted" id="basic">
+    <div class="plan-badge">Launch favorite</div>
+    <h3>Basic</h3><p class="price">$29<span>/mo plus usage</span></p>
+    <p>For small production workloads and early startup use.</p>
+    <ul><li>2 users</li><li>3 projects</li><li>10M runtime executions included</li><li>50 GB hours resident memory included</li><li>500 PRYZM build minutes</li><li>Basic observability and email support</li></ul>
+    <a class="button primary full" href="contact.html">Start Basic</a>
+    <p class="price-note">Best for low friction production testing.</p>
+  </article>
+  <article class="price-card" id="pro">
+    <h3>Pro</h3><p class="price">$199<span>/mo plus usage</span></p>
+    <p>For teams scaling performance and reducing cloud waste.</p>
+    <ul><li>10 users</li><li>10 projects</li><li>100M runtime executions included</li><li>1,000 GB hours resident memory included</li><li>5,000 PRYZM build minutes</li><li>Advanced observability and priority support</li></ul>
+    <a class="button secondary full" href="contact.html">Start Pro</a>
+    <p class="price-note">Best for serious workloads with team visibility.</p>
+  </article>
+</div>
+</section>
+  <section class="section-pad"><div class="section-heading center"><span class="eyebrow">Usage after included limits</span><h2>Transparent overages only when enabled.</h2><p>These are launch model rates for planning. Teams can set alerts, budgets, and hard caps before paid overages run.</p></div><div class="table-wrap"><table><thead><tr><th>Meter</th><th>What it tracks</th><th>Launch model rate</th></tr></thead><tbody><tr><td>Runtime executions</td><td>Requests or workload runs on PÜLS</td><td>$0.50 per 1M executions</td></tr><tr><td>Active CPU</td><td>Compute used while work is running</td><td>$0.04 per 1M CPU ms</td></tr><tr><td>Resident memory</td><td>Warm memory held by PÜLS</td><td>$0.015 per GB hour</td></tr><tr><td>PRYZM builds</td><td>Optimization and build minutes</td><td>$0.03 per build minute</td></tr></tbody></table></div></section>
+  <section class="section-pad"><div class="section-heading"><span class="eyebrow">Enterprise</span><h2>Need private deployment or reserved capacity?</h2><p>Enterprise plans are for teams that need custom deployment, higher limits, SLA, security review, architecture support, private support channels, or annual contracts.</p><div class="hero-actions"><a class="button primary" href="contact.html">Contact sales</a><a class="button secondary" href="docs.html">Read docs</a></div></div></section>
+  <section class="section-pad"><div class="section-heading center"><span class="eyebrow">Pricing FAQ</span><h2>Simple answers before signup.</h2></div><div class="faq-list"><div class="faq-item open"><button class="faq-question" type="button"><span>How does DataVec pricing work?</span><span>+</span></button><div class="faq-answer"><p>Use a hybrid model: a monthly plan fee, included usage, and transparent metered usage after the included amount. PRYZM usage maps to build and optimization work. PÜLS usage maps to executions, active CPU, and resident memory.</p></div></div><div class="faq-item"><button class="faq-question" type="button"><span>Why not charge only by seat?</span><span>+</span></button><div class="faq-answer"><p>DataVec is infrastructure. A small team can run a large workload, while a larger team may run very little. Seats should control collaboration features, not be the main billing unit.</p></div></div><div class="faq-item"><button class="faq-question" type="button"><span>Why charge for resident memory?</span><span>+</span></button><div class="faq-answer"><p>PÜLS keeps workloads warm and memory resident. That creates value, but it also consumes real infrastructure. GB hours make that cost fair and understandable.</p></div></div><div class="faq-item"><button class="faq-question" type="button"><span>Can overages be disabled?</span><span>+</span></button><div class="faq-answer"><p>Yes. The recommended launch experience is hard caps by default, alerts before limits, and opt in overages only when the customer chooses to scale.</p></div></div><div class="faq-item"><button class="faq-question" type="button"><span>What plan should a startup choose?</span><span>+</span></button><div class="faq-answer"><p>Start with Free to benchmark. Move to Basic when a real production workload is ready. Move to Pro when multiple users, higher limits, priority support, and deeper observability matter.</p></div></div><div class="faq-item"><button class="faq-question" type="button"><span>Is enterprise pricing available?</span><span>+</span></button><div class="faq-answer"><p>Yes. Enterprise is for private deployment, reserved capacity, security review, custom limits, annual contracts, SLA needs, and architecture support.</p></div></div></div></section>
+</main>
+
+  
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <img src="assets/logo.png" alt="DataVec" class="footer-logo" />
+      <p>Build modern applications in JavaScript. Optimize with PRYZM. Execute with PÜLS.</p>
+    </div>
+    <div class="footer-grid">
+      <div><h4>Platform</h4><a href="product.html">Product</a><a href="pryzm.html">PRYZM</a><a href="puls.html">PÜLS</a></div>
+      <div><h4>Launch</h4><a href="benchmarks.html">Benchmarks</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></div>
+      <div><h4>Get started</h4><a href="pricing.html#free">Start free</a><a href="contact.html">Contact</a><a href="docs.html#quickstart">Quickstart</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>DataVec</span><span>Developer first. Production ready. AI optimized.</span></div>
+</footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataVec Benchmarks | Prove the runtime</title>
+  <meta name="description" content="Benchmark PRYZM and PÜLS against your current stack." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="DataVec home"><img src="assets/logo.png" alt="DataVec" /></a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="" href="product.html">Product</a><a class="" href="pryzm.html">PRYZM</a><a class="" href="puls.html">PÜLS</a><a class="active" href="benchmarks.html">Benchmarks</a><a class="" href="pricing.html">Pricing</a><a class="" href="docs.html">Docs</a>
+    <a class="nav-cta" href="pricing.html#free">Start free</a>
+  </nav>
+</header>
+  
+<main>
+  <section class="page-hero"><div class="page-hero-inner"><div><span class="eyebrow">Benchmarks</span><h1>Proof should be part of the product.</h1><p>DataVec makes a serious technical claim, so the website should invite developers to test it. The free plan should help users compare their current stack against PRYZM and PÜLS.</p><div class="hero-actions"><a class="button primary" href="pricing.html#free">Start free</a><a class="button secondary" href="docs.html#quickstart">Read quickstart</a></div></div><div class="mini-panel"><div class="mini-panel-title">Benchmark principles</div><div class="mini-grid"><div><strong>Same workload</strong><span>No cherry picking.</span></div><div><strong>Same environment</strong><span>Clear baseline.</span></div><div><strong>Clear method</strong><span>Repeatable tests.</span></div><div><strong>Cost signal</strong><span>Translate tech to dollars.</span></div></div></div></div></section>
+  <section class="section-pad dark-panel"><div class="section-heading center"><span class="eyebrow">Methodology</span><h2>Every public number should show how it was produced.</h2><p>Developers trust benchmark numbers when the workload, baseline, environment, and method are visible.</p></div><div class="cards four"><article class="card"><h3>Workload</h3><p>What code was tested and why it matters.</p></article><article class="card"><h3>Baseline</h3><p>The existing runtime or cloud service used for comparison.</p></article><article class="card"><h3>Environment</h3><p>Hardware, region, memory, CPU, and test configuration.</p></article><article class="card"><h3>Result</h3><p>Latency, memory, CPU, cold starts, and cost signal.</p></article></div></section>
+  <section class="section-pad"><div class="section-heading"><span class="eyebrow">Metrics to publish</span><h2>Show the numbers buyers actually care about.</h2></div><div class="table-wrap"><table><thead><tr><th>Metric</th><th>Why it matters</th><th>How to explain it</th></tr></thead><tbody><tr><td>P95 latency</td><td>Shows real user delay under load.</td><td>Lower tail latency means more consistent execution.</td></tr><tr><td>Cold start time</td><td>Shows startup penalty.</td><td>PÜLS is designed to keep workloads warm and ready.</td></tr><tr><td>Memory use</td><td>Cloud bills rise when memory waste scales.</td><td>Less duplicated runtime state can reduce cost pressure.</td></tr><tr><td>CPU time</td><td>Measures how much compute work is used.</td><td>PRYZM shifts optimization into the build step.</td></tr><tr><td>Cost estimate</td><td>Connects engineering proof to budget impact.</td><td>Show assumptions and make the math easy to inspect.</td></tr></tbody></table></div></section>
+  <section class="section-pad">
+<div class="dashboard" aria-label="PÜLS observability dashboard sample">
+  <div class="dash-bar"><span>PÜLS runtime observability</span><span class="pill">Demo data</span></div>
+  <div class="dash-grid">
+    <div class="dash-box"><small>Requests</small><strong>128.6M</strong><p>Sample volume</p></div>
+    <div class="dash-box"><small>P95 latency</small><strong>1.2ms</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Memory residency</small><strong>99.8%</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Cold starts</small><strong>0</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Cost signal</small><strong>$267K</strong><p>Demo only</p></div>
+    <div class="dash-chart"><svg viewBox="0 0 900 170" preserveAspectRatio="none"><path class="p1" d="M0 112 C55 105 68 60 122 88 S225 120 280 74 S394 98 452 72 S560 108 623 84 S720 42 790 76 S860 103 900 82"/><path class="p2" d="M0 130 C80 126 110 119 180 126 S300 138 360 116 S480 124 560 130 S690 118 760 130 S840 136 900 122"/></svg></div>
+  </div>
+</div>
+</section>
+</main>
+
+  
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <img src="assets/logo.png" alt="DataVec" class="footer-logo" />
+      <p>Build modern applications in JavaScript. Optimize with PRYZM. Execute with PÜLS.</p>
+    </div>
+    <div class="footer-grid">
+      <div><h4>Platform</h4><a href="product.html">Product</a><a href="pryzm.html">PRYZM</a><a href="puls.html">PÜLS</a></div>
+      <div><h4>Launch</h4><a href="benchmarks.html">Benchmarks</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></div>
+      <div><h4>Get started</h4><a href="pricing.html#free">Start free</a><a href="contact.html">Contact</a><a href="docs.html#quickstart">Quickstart</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>DataVec</span><span>Developer first. Production ready. AI optimized.</span></div>
+</footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PRYZM | JavaScript optimization engine</title>
+  <meta name="description" content="PRYZM transforms JavaScript into optimized C output before runtime." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="DataVec home"><img src="assets/logo.png" alt="DataVec" /></a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="" href="product.html">Product</a><a class="active" href="pryzm.html">PRYZM</a><a class="" href="puls.html">PÜLS</a><a class="" href="benchmarks.html">Benchmarks</a><a class="" href="pricing.html">Pricing</a><a class="" href="docs.html">Docs</a>
+    <a class="nav-cta" href="pricing.html#free">Start free</a>
+  </nav>
+</header>
+  
+<main>
+  <section class="page-hero"><div class="page-hero-inner"><div><span class="eyebrow">PRYZM build engine</span><h1>JavaScript in. Optimized C out.</h1><p>PRYZM is the transformation layer that lets teams keep modern JavaScript development while preparing workloads for leaner execution.</p><div class="hero-actions"><a class="button primary" href="docs.html#quickstart">Try the build flow</a><a class="button secondary" href="pricing.html#free">Start free</a></div></div><div class="feature-card pryzm-card"><span class="product-label">PRYZM</span><h3>Transform before runtime.</h3><p>Parse, analyze, optimize, generate, check, and prepare code before it reaches PÜLS.</p></div></div></section>
+  <section class="section-pad"><div class="section-heading center"><span class="eyebrow">Build pipeline</span><h2>Move work out of runtime and into the build.</h2><p>The more work handled before execution, the less waste the runtime has to carry.</p></div><div class="timeline"><div class="step"><span>1</span><h3>Parse</h3><p>Read modern JavaScript and structure the program.</p></div><div class="step"><span>2</span><h3>Analyze</h3><p>Identify data flow, object traversal, and safe optimization paths.</p></div><div class="step"><span>3</span><h3>Generate C</h3><p>Create efficient C output for the execution target.</p></div><div class="step"><span>4</span><h3>Tune</h3><p>Prepare the workload for runtime performance checks.</p></div></div></section>
+  <section class="section-pad"><div class="code-compare"><div class="code-panel"><header><span>Input JavaScript</span><span>PRYZM</span></header><pre><code><span class="purple-code">async</span> function getUser(id) {
+  const user = await db.users.findOne({ id });
+  if (!user) return null;
+  return user;
+}</code></pre></div><div class="code-panel"><header><span>Output C</span><span>Optimized</span></header><pre><code>user_t* getUser(int32_t id) {
+  user_t* user = db_users_find_one(id);
+  if (!user) return NULL;
+  return user;
+}</code></pre></div></div></section>
+  <section class="section-pad split-section"><div class="section-heading"><span class="eyebrow">Marketing translation</span><h2>Keep developer speed. Cut execution weight.</h2><p>The claim is simple: teams should not have to choose between productive JavaScript development and efficient runtime behavior.</p></div><div class="cards two"><article class="card"><span class="card-icon purple">01</span><h3>Lower runtime burden</h3><p>PRYZM is designed to reduce dependence on heavy runtime behavior by preparing optimized output earlier.</p></article><article class="card"><span class="card-icon cyan">02</span><h3>Cleaner benchmark story</h3><p>Developers can compare existing JavaScript execution against the PRYZM and PÜLS path.</p></article></div></section>
+</main>
+
+  
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <img src="assets/logo.png" alt="DataVec" class="footer-logo" />
+      <p>Build modern applications in JavaScript. Optimize with PRYZM. Execute with PÜLS.</p>
+    </div>
+    <div class="footer-grid">
+      <div><h4>Platform</h4><a href="product.html">Product</a><a href="pryzm.html">PRYZM</a><a href="puls.html">PÜLS</a></div>
+      <div><h4>Launch</h4><a href="benchmarks.html">Benchmarks</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></div>
+      <div><h4>Get started</h4><a href="pricing.html#free">Start free</a><a href="contact.html">Contact</a><a href="docs.html#quickstart">Quickstart</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>DataVec</span><span>Developer first. Production ready. AI optimized.</span></div>
+</footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

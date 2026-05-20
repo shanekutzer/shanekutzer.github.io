@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PÜLS | Persistent runtime engine</title>
+  <meta name="description" content="PÜLS keeps workloads warm, local, and ready to execute." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="DataVec home"><img src="assets/logo.png" alt="DataVec" /></a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="" href="product.html">Product</a><a class="" href="pryzm.html">PRYZM</a><a class="active" href="puls.html">PÜLS</a><a class="" href="benchmarks.html">Benchmarks</a><a class="" href="pricing.html">Pricing</a><a class="" href="docs.html">Docs</a>
+    <a class="nav-cta" href="pricing.html#free">Start free</a>
+  </nav>
+</header>
+  
+<main>
+  <section class="page-hero"><div class="page-hero-inner"><div><span class="eyebrow">PÜLS runtime engine</span><h1>Warm. Local. Ready.</h1><p>PÜLS is the persistent runtime system designed to reduce cold starts, unnecessary movement, duplicated memory, and scheduling overhead.</p><div class="hero-actions"><a class="button primary" href="benchmarks.html">Run a benchmark</a><a class="button secondary" href="pricing.html#free">Start free</a></div></div><div class="feature-card puls-card"><span class="product-label">PÜLS</span><h3>Execution without constant restart.</h3><p>Keep workloads resident, memory close, and dispatch fast.</p></div></div></section>
+  <section class="section-pad"><div class="section-heading center"><span class="eyebrow">Runtime philosophy</span><h2>Stop moving computation unnecessarily.</h2><p>Many cloud systems spend huge effort starting, stopping, relocating, and coordinating work. PÜLS is designed around the opposite idea: keep related work close and ready.</p></div><div class="cards three"><article class="card"><span class="card-icon orange">01</span><h3>Zero cold start architecture</h3><p>Workloads are designed to stay warm so requests do not wait for repeated initialization.</p></article><article class="card"><span class="card-icon purple">02</span><h3>Persistent memory residency</h3><p>State can stay in memory instead of being rebuilt from disk or remote services on every request.</p></article><article class="card"><span class="card-icon cyan">03</span><h3>Locality aware execution</h3><p>Computation, data, state, and communication are kept close wherever the workload allows it.</p></article></div></section>
+  <section class="section-pad">
+<div class="dashboard" aria-label="PÜLS observability dashboard sample">
+  <div class="dash-bar"><span>PÜLS runtime observability</span><span class="pill">Demo data</span></div>
+  <div class="dash-grid">
+    <div class="dash-box"><small>Requests</small><strong>128.6M</strong><p>Sample volume</p></div>
+    <div class="dash-box"><small>P95 latency</small><strong>1.2ms</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Memory residency</small><strong>99.8%</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Cold starts</small><strong>0</strong><p>Demo only</p></div>
+    <div class="dash-box"><small>Cost signal</small><strong>$267K</strong><p>Demo only</p></div>
+    <div class="dash-chart"><svg viewBox="0 0 900 170" preserveAspectRatio="none"><path class="p1" d="M0 112 C55 105 68 60 122 88 S225 120 280 74 S394 98 452 72 S560 108 623 84 S720 42 790 76 S860 103 900 82"/><path class="p2" d="M0 130 C80 126 110 119 180 126 S300 138 360 116 S480 124 560 130 S690 118 760 130 S840 136 900 122"/></svg></div>
+  </div>
+</div>
+</section>
+  <section class="section-pad split-section"><div class="section-heading"><span class="eyebrow">Business value</span><h2>Lower latency is useful. Lower waste is the strategy.</h2><p>PÜLS should be marketed around the cost of unnecessary setup, movement, and orchestration. That is where technical pain becomes a budget conversation.</p></div><div class="cards two"><article class="card"><h3>For technical teams</h3><p>Measure cold starts, p95 latency, CPU time, resident memory, and workload behavior.</p></article><article class="card"><h3>For decision makers</h3><p>Connect efficiency gains to cloud spend, scaling pressure, infrastructure complexity, and AI workload growth.</p></article></div></section>
+</main>
+
+  
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <img src="assets/logo.png" alt="DataVec" class="footer-logo" />
+      <p>Build modern applications in JavaScript. Optimize with PRYZM. Execute with PÜLS.</p>
+    </div>
+    <div class="footer-grid">
+      <div><h4>Platform</h4><a href="product.html">Product</a><a href="pryzm.html">PRYZM</a><a href="puls.html">PÜLS</a></div>
+      <div><h4>Launch</h4><a href="benchmarks.html">Benchmarks</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></div>
+      <div><h4>Get started</h4><a href="pricing.html#free">Start free</a><a href="contact.html">Contact</a><a href="docs.html#quickstart">Quickstart</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>DataVec</span><span>Developer first. Production ready. AI optimized.</span></div>
+</footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

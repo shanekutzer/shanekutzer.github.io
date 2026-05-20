@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataVec Docs | Quickstart</title>
+  <meta name="description" content="Quickstart for building with PRYZM and running on PÜLS." />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  
+<header class="site-header">
+  <a class="brand" href="index.html" aria-label="DataVec home"><img src="assets/logo.png" alt="DataVec" /></a>
+  <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a class="" href="product.html">Product</a><a class="" href="pryzm.html">PRYZM</a><a class="" href="puls.html">PÜLS</a><a class="" href="benchmarks.html">Benchmarks</a><a class="" href="pricing.html">Pricing</a><a class="active" href="docs.html">Docs</a>
+    <a class="nav-cta" href="pricing.html#free">Start free</a>
+  </nav>
+</header>
+  
+<main>
+  <section class="page-hero"><div class="page-hero-inner"><div><span class="eyebrow">Docs preview</span><h1>Run your first workload in minutes.</h1><p>The docs should turn curiosity into proof. The ideal flow is simple: create a project, run PRYZM, deploy to PÜLS, then compare results.</p></div><div class="mini-panel"><div class="mini-panel-title">Quickstart outcome</div><div class="mini-grid"><div><strong>Build</strong><span>PRYZM output ready.</span></div><div><strong>Run</strong><span>PÜLS workload live.</span></div><div><strong>Measure</strong><span>Latency and memory visible.</span></div><div><strong>Decide</strong><span>Upgrade only with proof.</span></div></div></div></div></section>
+  <section class="section-pad"><div class="doc-layout"><nav class="doc-sidebar"><a href="#quickstart">Quickstart</a><a href="#build">Build with PRYZM</a><a href="#run">Run on PÜLS</a><a href="#measure">Measure results</a><a href="#limits">Early access limits</a></nav><div class="doc-content"><article class="doc-card" id="quickstart"><h2>Quickstart</h2><p>Create a project and deploy a small JavaScript function through the full DataVec path.</p><pre class="command"><code>datavec login
+datavec create api-demo
+datavec add handler.js
+datavec build
+datavec deploy
+datavec compare</code></pre></article><article class="doc-card" id="build"><h2>Build with PRYZM</h2><p>PRYZM analyzes JavaScript and prepares optimized C output before execution. The build report should show supported language features, warnings, and optimization notes.</p></article><article class="doc-card" id="run"><h2>Run on PÜLS</h2><p>PÜLS executes the workload with warm residency and observability. The runtime view should show requests, cold starts, resident memory, CPU time, and latency.</p></article><article class="doc-card" id="measure"><h2>Measure results</h2><p>The compare command should help teams inspect current stack performance beside DataVec performance using the same workload.</p></article><article class="doc-card" id="limits"><h2>Early access limits</h2><p>Early docs should be clear about supported JavaScript features, supported APIs, package limitations, memory limits, runtime limits, and known issues. Technical users trust transparency.</p></article></div></div></section>
+</main>
+
+  
+<footer class="site-footer">
+  <div class="footer-main">
+    <div>
+      <img src="assets/logo.png" alt="DataVec" class="footer-logo" />
+      <p>Build modern applications in JavaScript. Optimize with PRYZM. Execute with PÜLS.</p>
+    </div>
+    <div class="footer-grid">
+      <div><h4>Platform</h4><a href="product.html">Product</a><a href="pryzm.html">PRYZM</a><a href="puls.html">PÜLS</a></div>
+      <div><h4>Launch</h4><a href="benchmarks.html">Benchmarks</a><a href="pricing.html">Pricing</a><a href="docs.html">Docs</a></div>
+      <div><h4>Get started</h4><a href="pricing.html#free">Start free</a><a href="contact.html">Contact</a><a href="docs.html#quickstart">Quickstart</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><span>DataVec</span><span>Developer first. Production ready. AI optimized.</span></div>
+</footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>
