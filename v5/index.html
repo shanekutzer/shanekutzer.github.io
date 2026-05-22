@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DataVec — Cloud Hosting at Native Speed</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #04070d;
+  --bg2: #080d16;
+  --surface: #0c1422;
+  --surface2: #101a2e;
+  --border: #172035;
+  --border2: #1e2f4a;
+  --accent: #00b8e6;
+  --accent2: #00e090;
+  --accent3: #ff5533;
+  --brand: #1E2B8F;
+  --brand2: #2a3db5;
+  --brand-light: #4a5fd4;
+  --warn: #f0aa20;
+  --text: #d8eaf8;
+  --text2: #6a8fae;
+  --text3: #334d66;
+  --mono: 'IBM Plex Mono', monospace;
+  --body: 'IBM Plex Sans', sans-serif;
+  --radius: 6px;
+  --radius-lg: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--text); font-family:var(--body); font-size:16px; line-height:1.65; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(30,43,143,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(30,43,143,0.04) 1px,transparent 1px); background-size:72px 72px; pointer-events:none; z-index:0; }
+.orb { position:fixed; border-radius:50%; filter:blur(140px); pointer-events:none; z-index:0; }
+.orb-1 { width:700px; height:700px; background:#1E2B8F; top:-300px; right:-200px; opacity:0.15; }
+.orb-2 { width:500px; height:500px; background:#00b8e6; bottom:10%; left:-200px; opacity:0.07; }
+.container { max-width:1160px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+section { position:relative; z-index:1; }
+
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:0 48px; height:66px; display:flex; align-items:center; justify-content:space-between; background:rgba(4,7,13,0.92); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+.nav-logo img { height:32px; width:auto; display:block; }
+.nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
+.nav-links a { color:var(--text2); text-decoration:none; font-size:14px; font-weight:500; transition:color 0.15s; }
+.nav-links a:hover { color:var(--text); }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:9px 20px; border-radius:var(--radius); font-family:var(--body); font-size:14px; font-weight:600; cursor:pointer; text-decoration:none; transition:all 0.15s; border:none; letter-spacing:0.1px; }
+.btn-primary { background:var(--brand); color:#fff; }
+.btn-primary:hover { background:var(--brand2); transform:translateY(-1px); }
+.btn-outline { background:transparent; color:var(--text); border:1px solid var(--border2); }
+.btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+.btn-lg { padding:12px 28px; font-size:15px; }
+.btn-xl { padding:16px 36px; font-size:16px; border-radius:8px; }
+
+/* HERO */
+.hero { min-height:100vh; display:flex; align-items:center; padding:120px 0 80px; }
+.hero-inner { max-width:1160px; margin:0 auto; padding:0 32px; display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 12px; background:rgba(30,43,143,0.15); border:1px solid rgba(30,43,143,0.4); border-radius:100px; font-size:12px; color:var(--brand-light); font-family:var(--mono); margin-bottom:24px; letter-spacing:0.5px; }
+.hero-badge-dot { width:6px; height:6px; background:var(--accent2); border-radius:50%; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+.hero h1 { font-family:var(--body); font-size:clamp(38px,4.5vw,58px); font-weight:700; line-height:1.1; letter-spacing:-1px; margin-bottom:22px; color:var(--text); }
+.hero h1 em { font-style:normal; color:var(--accent); }
+.hero p { font-size:17px; color:var(--text2); line-height:1.7; margin-bottom:36px; max-width:480px; }
+.hero-cta { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.hero-note { font-size:13px; color:var(--text3); margin-top:18px; }
+.hero-note span { color:var(--accent2); }
+
+/* TERMINAL */
+.terminal { background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius-lg); overflow:hidden; font-family:var(--mono); font-size:13px; box-shadow:0 24px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(30,43,143,0.2); }
+.terminal-bar { padding:12px 16px; background:var(--surface2); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:7px; }
+.dot { width:11px; height:11px; border-radius:50%; }
+.dot-r { background:#ff5f57; } .dot-y { background:#febc2e; } .dot-g { background:#28c840; }
+.terminal-title { color:var(--text3); font-size:11px; margin-left:6px; }
+.terminal-body { padding:22px 24px; line-height:1.9; }
+.terminal-line { margin-bottom:1px; }
+.t-prompt { color:var(--accent2); } .t-cmd { color:var(--text); } .t-dim { color:var(--text3); }
+.t-success { color:var(--accent2); } .t-info { color:var(--accent); } .t-highlight { color:var(--warn); font-weight:600; }
+.cursor { display:inline-block; width:7px; height:13px; background:var(--accent); vertical-align:middle; animation:blink 1.1s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+/* STAT STRIP */
+.stat-strip { border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:var(--bg2); padding:24px 0; }
+.stat-strip-inner { display:flex; justify-content:center; gap:72px; flex-wrap:wrap; }
+.stat-item { text-align:center; }
+.stat-num { font-family:var(--mono); font-size:28px; font-weight:600; color:var(--accent); display:block; letter-spacing:-0.5px; }
+.stat-label { font-size:13px; color:var(--text2); margin-top:3px; }
+
+/* SECTION HEADERS */
+.section-label { font-family:var(--mono); font-size:11px; color:var(--brand-light); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:14px; }
+.section-title { font-family:var(--body); font-size:clamp(28px,3.5vw,42px); font-weight:700; letter-spacing:-0.8px; line-height:1.12; margin-bottom:18px; }
+.section-sub { font-size:17px; color:var(--text2); max-width:540px; line-height:1.7; }
+
+/* HOW IT WORKS */
+.how { padding:96px 0; }
+.steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; margin-top:56px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.step { background:var(--bg2); padding:32px 26px; transition:background 0.15s; }
+.step:hover { background:var(--surface); }
+.step-num { font-family:var(--mono); font-size:10px; color:var(--brand-light); letter-spacing:2px; margin-bottom:18px; opacity:0.8; }
+.step-icon { font-size:26px; margin-bottom:14px; display:block; }
+.step h3 { font-size:17px; font-weight:600; margin-bottom:10px; }
+.step p { font-size:13px; color:var(--text2); line-height:1.6; }
+
+/* WHY */
+.why { padding:96px 0; background:var(--bg2); }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:56px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.card { background:var(--bg2); padding:32px 28px; transition:background 0.15s; }
+.card:hover { background:var(--surface); }
+.card-icon { font-size:28px; margin-bottom:16px; display:block; }
+.card h3 { font-size:17px; font-weight:600; margin-bottom:10px; }
+.card p { font-size:13px; color:var(--text2); line-height:1.65; }
+.card-highlight { display:inline-block; margin-top:14px; font-family:var(--mono); font-size:11px; color:var(--accent2); background:rgba(0,224,144,0.07); border:1px solid rgba(0,224,144,0.15); padding:3px 9px; border-radius:3px; }
+
+/* COMPARISON */
+.compare { padding:96px 0; }
+.compare-table { margin-top:56px; border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.compare-row { display:grid; grid-template-columns:2fr 1.3fr 1.3fr 1.3fr 1.3fr; border-bottom:1px solid var(--border); }
+.compare-row:last-child { border-bottom:none; }
+.compare-header { background:var(--surface2); }
+.compare-cell { padding:15px 18px; font-size:13px; display:flex; align-items:center; gap:7px; border-right:1px solid var(--border); }
+.compare-cell:last-child { border-right:none; }
+.compare-header .compare-cell { font-size:13px; font-weight:600; }
+.compare-header .compare-cell:nth-child(2) { background:rgba(30,43,143,0.12); color:var(--accent); border-top:2px solid var(--brand); }
+.compare-row:not(.compare-header):hover { background:var(--surface); }
+.compare-feature { color:var(--text2); font-weight:500; }
+.check { color:var(--accent2); } .cross { color:var(--accent3); } .partial { color:var(--warn); font-size:12px; }
+.dv-cell { background:rgba(30,43,143,0.06); font-weight:600; color:var(--text); }
+.compare-note { margin-top:14px; font-size:12px; color:var(--text3); text-align:center; line-height:1.6; }
+
+/* COLD START */
+.coldstart { padding:96px 0; background:var(--bg2); }
+.cs-grid { display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:56px; align-items:start; }
+.cs-bar-item { margin-bottom:18px; }
+.cs-bar-label { display:flex; justify-content:space-between; font-size:13px; color:var(--text2); margin-bottom:7px; }
+.cs-bar-label strong { color:var(--text); font-weight:600; }
+.cs-bar-track { height:26px; background:var(--surface); border-radius:3px; overflow:hidden; border:1px solid var(--border); }
+.cs-bar-fill { height:100%; border-radius:3px; display:flex; align-items:center; padding-left:10px; font-family:var(--mono); font-size:11px; font-weight:600; }
+.fill-aws { background:linear-gradient(90deg,#9b2020,#7a1818); color:#ffaaaa; width:90%; }
+.fill-azure { background:linear-gradient(90deg,#144080,#0d2f60); color:#aac8ff; width:68%; }
+.fill-vercel { background:linear-gradient(90deg,#7a5010,#5a3a08); color:#ffd88a; width:50%; }
+.fill-gcp { background:linear-gradient(90deg,#3a2a80,#2a1e60); color:#c8b8ff; width:42%; }
+.fill-dv { background:linear-gradient(90deg,#1E2B8F,#2a3db5); color:#aab8ff; width:3%; min-width:52px; }
+.cs-quote { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent3); border-radius:var(--radius); padding:20px 24px; margin-bottom:20px; }
+.cs-quote p { font-size:13px; color:var(--text2); line-height:1.7; font-style:italic; }
+.cs-quote cite { display:block; margin-top:10px; font-size:11px; color:var(--text3); font-style:normal; font-family:var(--mono); }
+.cs-stat-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.cs-stat { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px; }
+.cs-stat-num { font-family:var(--mono); font-size:26px; font-weight:600; color:var(--accent2); display:block; letter-spacing:-0.5px; }
+.cs-stat-label { font-size:12px; color:var(--text2); margin-top:4px; line-height:1.5; }
+
+/* TECH */
+.tech { padding:96px 0; }
+.tech-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:56px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.tech-card { background:var(--bg2); padding:44px 40px; }
+.tech-tag { display:inline-block; font-family:var(--mono); font-size:10px; color:var(--brand-light); background:rgba(30,43,143,0.12); border:1px solid rgba(30,43,143,0.3); padding:3px 9px; border-radius:3px; margin-bottom:18px; letter-spacing:1.5px; }
+.tech-card h3 { font-size:24px; font-weight:700; letter-spacing:-0.5px; margin-bottom:14px; line-height:1.2; }
+.tech-card p { font-size:14px; color:var(--text2); line-height:1.7; margin-bottom:22px; }
+.tech-list { list-style:none; }
+.tech-list li { font-size:13px; color:var(--text2); padding:8px 0; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:10px; }
+.tech-list li:last-child { border-bottom:none; }
+.tech-list li::before { content:'→'; color:var(--accent); flex-shrink:0; font-family:var(--mono); }
+
+/* CALCULATOR */
+.calculator { padding:96px 0; background:var(--bg2); }
+.calc-wrap { margin-top:56px; background:var(--surface); border:1px solid var(--border2); border-radius:var(--radius-lg); overflow:hidden; }
+.calc-top { display:grid; grid-template-columns:1fr 1fr; }
+.calc-inputs { padding:40px; border-right:1px solid var(--border); }
+.calc-inputs h3 { font-size:18px; font-weight:600; margin-bottom:28px; }
+.slider-group { margin-bottom:24px; }
+.slider-label { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; font-size:13px; color:var(--text2); }
+.slider-val { font-family:var(--mono); font-size:13px; color:var(--accent); font-weight:600; }
+input[type=range] { width:100%; height:3px; -webkit-appearance:none; background:var(--border2); border-radius:2px; outline:none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:var(--brand); cursor:pointer; border:2px solid var(--bg); box-shadow:0 0 0 3px rgba(30,43,143,0.2); }
+.calc-results { padding:40px; }
+.calc-results h3 { font-size:18px; font-weight:600; margin-bottom:28px; }
+.calc-note { font-size:12px; color:var(--text3); margin-bottom:16px; font-style:italic; line-height:1.5; padding:10px 12px; background:rgba(240,170,32,0.06); border:1px solid rgba(240,170,32,0.15); border-radius:var(--radius); }
+.result-dv { background:rgba(30,43,143,0.1); border:1px solid rgba(30,43,143,0.3); border-radius:var(--radius); padding:18px 20px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; }
+.result-dv-label { font-size:14px; font-weight:600; }
+.result-dv-sub { font-size:11px; color:var(--text2); margin-top:2px; }
+.result-dv-price { font-family:var(--mono); font-size:26px; font-weight:600; color:var(--accent); letter-spacing:-0.5px; }
+.result-competitor { display:flex; justify-content:space-between; align-items:center; padding:11px 14px; border-radius:var(--radius); margin-bottom:6px; background:var(--bg2); border:1px solid var(--border); }
+.result-comp-left { display:flex; align-items:center; gap:8px; }
+.result-comp-label { font-size:13px; color:var(--text2); }
+.result-saving { font-size:11px; color:var(--accent2); font-family:var(--mono); }
+.result-comp-price { font-family:var(--mono); font-size:14px; color:var(--text); }
+.result-annual { margin-top:16px; padding:14px; background:rgba(0,224,144,0.06); border:1px solid rgba(0,224,144,0.15); border-radius:var(--radius); text-align:center; }
+.result-annual-num { font-family:var(--mono); font-size:22px; font-weight:600; color:var(--accent2); display:block; }
+.result-annual-label { font-size:12px; color:var(--text2); margin-top:2px; }
+
+/* PRICING */
+.pricing { padding:96px 0; }
+.pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin-top:56px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+.plan { background:var(--bg2); padding:36px 32px; }
+.plan-featured { background:var(--surface); border-top:2px solid var(--brand); }
+.plan-badge { display:inline-block; font-family:var(--mono); font-size:9px; color:var(--brand-light); background:rgba(30,43,143,0.12); border:1px solid rgba(30,43,143,0.3); padding:2px 7px; border-radius:2px; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+.plan-name { font-size:20px; font-weight:700; letter-spacing:-0.3px; margin-bottom:6px; }
+.plan-desc { font-size:13px; color:var(--text2); margin-bottom:24px; line-height:1.5; }
+.plan-price { font-family:var(--mono); font-size:42px; font-weight:600; letter-spacing:-1.5px; margin-bottom:4px; line-height:1; }
+.plan-price sup { font-size:20px; vertical-align:top; margin-top:6px; letter-spacing:0; }
+.plan-period { font-size:12px; color:var(--text2); margin-bottom:24px; }
+.plan-divider { border:none; border-top:1px solid var(--border); margin:24px 0; }
+.plan-includes { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:1.5px; font-family:var(--mono); margin-bottom:14px; }
+.plan-features { list-style:none; }
+.plan-features li { font-size:13px; color:var(--text2); padding:6px 0; display:flex; align-items:flex-start; gap:9px; border-bottom:1px solid rgba(23,32,53,0.6); }
+.plan-features li:last-child { border-bottom:none; }
+.plan-features li::before { content:'✓'; color:var(--accent2); flex-shrink:0; font-weight:700; font-size:12px; margin-top:1px; }
+.plan-cta { display:block; text-align:center; margin-top:28px; padding:11px; border-radius:var(--radius); font-weight:600; font-size:14px; text-decoration:none; transition:all 0.15s; }
+.plan-cta-primary { background:var(--brand); color:#fff; }
+.plan-cta-primary:hover { background:var(--brand2); }
+.plan-cta-outline { border:1px solid var(--border2); color:var(--text); }
+.plan-cta-outline:hover { border-color:var(--brand-light); color:var(--brand-light); }
+.overage-note { margin-top:40px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px 36px; }
+.overage-note h3 { font-size:17px; font-weight:600; margin-bottom:22px; }
+.overage-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.overage-metric { font-size:12px; color:var(--text2); margin-bottom:4px; }
+.overage-price { font-family:var(--mono); font-size:15px; color:var(--accent); font-weight:600; }
+.overage-unit { font-size:11px; color:var(--text3); margin-top:2px; }
+
+/* WHO */
+.who { padding:96px 0; background:var(--bg2); }
+.who-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin-top:56px; }
+.who-fits h3, .who-not h3 { font-size:17px; font-weight:600; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.who-list { list-style:none; }
+.who-list li { padding:11px 0; font-size:13px; color:var(--text2); border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:10px; line-height:1.5; }
+.who-list li:last-child { border-bottom:none; }
+.who-check { color:var(--accent2); flex-shrink:0; font-weight:700; }
+.who-cross { color:var(--accent3); flex-shrink:0; font-weight:700; }
+.who-note { margin-top:14px; font-size:12px; color:var(--text3); line-height:1.6; font-style:italic; }
+
+/* FAQ */
+.faq { padding:96px 0; }
+.faq-list { margin-top:56px; max-width:760px; }
+.faq-item { border-bottom:1px solid var(--border); }
+.faq-q { width:100%; background:none; border:none; text-align:left; padding:22px 0; font-family:var(--body); font-size:15px; font-weight:600; color:var(--text); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.faq-q:hover { color:var(--accent); }
+.faq-icon { color:var(--brand-light); font-size:18px; flex-shrink:0; transition:transform 0.2s; font-family:var(--mono); }
+.faq-a { max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+.faq-a-inner { padding:0 0 22px; font-size:14px; color:var(--text2); line-height:1.75; }
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-item.open .faq-a { max-height:400px; }
+
+/* CTA */
+.cta-section { padding:112px 0; text-align:center; position:relative; overflow:hidden; }
+.cta-section::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 50% 70% at 50% 50%,rgba(30,43,143,0.08) 0%,transparent 70%); pointer-events:none; }
+.cta-section h2 { font-size:clamp(32px,4vw,50px); font-weight:700; letter-spacing:-1.5px; margin-bottom:18px; line-height:1.1; }
+.cta-section p { font-size:17px; color:var(--text2); max-width:480px; margin:0 auto 36px; line-height:1.7; }
+.cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+/* FOOTER */
+footer { border-top:1px solid var(--border); background:var(--bg2); padding:44px 0 28px; }
+.footer-inner { display:flex; justify-content:space-between; align-items:flex-start; gap:48px; flex-wrap:wrap; margin-bottom:44px; }
+.footer-logo img { height:28px; width:auto; display:block; margin-bottom:12px; }
+.footer-brand p { font-size:13px; color:var(--text3); max-width:220px; line-height:1.6; }
+.footer-links-group h4 { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:2px; font-family:var(--mono); margin-bottom:14px; }
+.footer-links-group ul { list-style:none; }
+.footer-links-group li { margin-bottom:9px; }
+.footer-links-group a { font-size:13px; color:var(--text2); text-decoration:none; transition:color 0.15s; }
+.footer-links-group a:hover { color:var(--accent); }
+.footer-bottom { border-top:1px solid var(--border); padding-top:22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+.footer-bottom p { font-size:12px; color:var(--text3); }
+
+@media(max-width:900px){
+  nav{padding:0 20px;} .nav-links{display:none;}
+  .hero-inner{grid-template-columns:1fr;gap:40px;padding:0 20px;}
+  .steps{grid-template-columns:1fr 1fr;} .cards{grid-template-columns:1fr;}
+  .compare-row{grid-template-columns:1.5fr 1fr 1fr;}
+  .compare-row .compare-cell:nth-child(4),.compare-row .compare-cell:nth-child(5){display:none;}
+  .cs-grid{grid-template-columns:1fr;} .tech-grid{grid-template-columns:1fr;}
+  .calc-top{grid-template-columns:1fr;} .calc-inputs{border-right:none;border-bottom:1px solid var(--border);}
+  .pricing-grid{grid-template-columns:1fr;} .overage-grid{grid-template-columns:1fr 1fr;}
+  .who-grid{grid-template-columns:1fr;} .stat-strip-inner{gap:36px;} .container{padding:0 20px;}
+}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#"><img src="data:image/png;base64,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" alt="DataVec" style="height:32px;width:auto;" /></a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#" class="btn btn-outline" style="padding:7px 16px;font-size:13px;">Sign In</a></li>
+    <li><a href="#pricing" class="btn btn-primary" style="padding:7px 16px;font-size:13px;">Start Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><div class="hero-badge-dot"></div>Now in early access</div>
+      <h1>Deploy Your App.<br><em>No Cold Starts.</em><br>No Overpaying.</h1>
+      <p>DataVec runs your JavaScript applications at native C speed — automatically provisioning your domain, TLS certificate, and HTTPS so you can focus on building, not configuring.</p>
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn-primary btn-xl">Start Free — No Card Required</a>
+        <a href="#how" class="btn btn-outline btn-lg">See How It Works</a>
+      </div>
+      <p class="hero-note">Free tier includes 10M executions/month. <span>Zero cold starts. Always.</span></p>
+    </div>
+    <div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <span class="terminal-title">datavec — deploy</span>
+        </div>
+        <div class="terminal-body">
+          <div class="terminal-line"><span class="t-prompt">$</span> <span class="t-cmd">datavec deploy ./my-api</span></div>
+          <div class="terminal-line t-dim">────────────────────────────</div>
+          <div class="terminal-line"><span class="t-info">→</span> Compiling JavaScript via JSMX</div>
+          <div class="terminal-line"><span class="t-info">→</span> Building native C binary</div>
+          <div class="terminal-line"><span class="t-info">→</span> Uploading to MNVKD runtime</div>
+          <div class="terminal-line"><span class="t-info">→</span> Provisioning TLS certificate</div>
+          <div class="terminal-line"><span class="t-info">→</span> Configuring HTTPS + domain</div>
+          <div class="terminal-line t-dim">────────────────────────────</div>
+          <div class="terminal-line"><span class="t-success">✓</span> <span class="t-highlight">Deployed in 4.2s</span></div>
+          <div class="terminal-line"><span class="t-success">✓</span> Live: <span class="t-info">my-api.datavec.app</span></div>
+          <div class="terminal-line"><span class="t-success">✓</span> HTTPS: <span class="t-success">Active (auto-renewed)</span></div>
+          <div class="terminal-line"><span class="t-success">✓</span> Cold starts: <span class="t-success">None — 0ms</span></div>
+          <div class="terminal-line t-dim">────────────────────────────</div>
+          <div class="terminal-line"><span class="t-prompt">$</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-strip-inner">
+    <div class="stat-item"><span class="stat-num">0ms</span><div class="stat-label">Cold starts — always warm</div></div>
+    <div class="stat-item"><span class="stat-num">~50%</span><div class="stat-label">Less than AWS, on average</div></div>
+    <div class="stat-item"><span class="stat-num">&lt;5s</span><div class="stat-label">Average deploy time</div></div>
+    <div class="stat-item"><span class="stat-num">Auto</span><div class="stat-label">TLS + HTTPS on every deploy</div></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From code to live in minutes.<br>No DevOps required.</h2>
+    <p class="section-sub">DataVec handles everything between writing your code and running it in production — including your TLS certificate and HTTPS automatically.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01 / WRITE</div>
+        <span class="step-icon">✏️</span>
+        <h3>Write JavaScript</h3>
+        <p>Write your backend or API in JavaScript — the same way you always have. No new languages or frameworks to learn.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02 / COMPILE</div>
+        <span class="step-icon">⚡</span>
+        <h3>JSMX Compiles It</h3>
+        <p>Our JSMX compiler converts your JavaScript to optimized C automatically. You never touch the C — it just runs faster.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03 / RUN</div>
+        <span class="step-icon">🚀</span>
+        <h3>MNVKD Executes It</h3>
+        <p>Your compiled code runs on MNVKD — our persistent C runtime. Always warm. Zero cold starts. Gets faster under heavy load.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04 / LIVE</div>
+        <span class="step-icon">🔒</span>
+        <h3>TLS + HTTPS Automatic</h3>
+        <p>Custom domain, TLS certificate, and HTTPS provisioned automatically on every deploy. No Certificate Manager, no load balancer config, no DNS headaches.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="section-label">Why DataVec</div>
+    <h2 class="section-title">Built differently.<br>Priced honestly.</h2>
+    <p class="section-sub">Every architectural decision we made was to solve a specific problem developers face with existing platforms.</p>
+    <div class="cards">
+      <div class="card"><span class="card-icon">🧊</span><h3>Zero Cold Starts. Guaranteed.</h3><p>AWS Lambda cold starts are costing companies real customers. At 1.8 seconds p99, conversion rates drop 4% for every 500ms. MNVKD starts hot and gets more efficient under load — not less.</p><span class="card-highlight">0ms cold start time</span></div>
+      <div class="card"><span class="card-icon">💸</span><h3>No Per-Request Billing.</h3><p>We're the first cloud platform that doesn't charge you per request. Request-based billing punishes growth. DataVec bills by resources consumed — predictable at any scale.</p><span class="card-highlight">Predictable costs always</span></div>
+      <div class="card"><span class="card-icon">🔒</span><h3>TLS + HTTPS Automatically.</h3><p>Every deploy gets a TLS certificate and HTTPS provisioned automatically. No Certificate Manager. No load balancer setup. No manual DNS records. Point your domain — it works.</p><span class="card-highlight">Auto-renewed certificates</span></div>
+      <div class="card"><span class="card-icon">🧠</span><h3>Persistent Memory. Always.</h3><p>Unlike Cloudflare Workers' 128MB hard limit, DataVec keeps your code warm in memory continuously. Real persistent state — the same way a real server works.</p><span class="card-highlight">Up to 1,000 GB-hours included</span></div>
+      <div class="card"><span class="card-icon">⚡</span><h3>Native C Speed from JavaScript.</h3><p>JSMX compiles your JavaScript to C before it runs. Full ahead-of-time compilation to native binaries. Your code runs at C speed without writing a single line of C.</p><span class="card-highlight">Compiled, not interpreted</span></div>
+      <div class="card"><span class="card-icon">🔄</span><h3>Atomic Rollbacks. Instant.</h3><p>Bad deploy? One command. Atomic rollback with zero downtime. Staging environments via secondary domain. Blue-green deployments built in.</p><span class="card-highlight">Zero-downtime deploys</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section class="compare" id="compare">
+  <div class="container">
+    <div class="section-label">The Honest Comparison</div>
+    <h2 class="section-title">DataVec vs. the alternatives.</h2>
+    <p class="section-sub">We're not going to cherry-pick metrics. Here's a straightforward look at what matters to a developer running production workloads.</p>
+    <div class="compare-table">
+      <div class="compare-row compare-header">
+        <div class="compare-cell compare-feature">Feature</div>
+        <div class="compare-cell dv-cell">DataVec</div>
+        <div class="compare-cell">AWS Lambda</div>
+        <div class="compare-cell">Cloudflare Workers</div>
+        <div class="compare-cell">Vercel</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Cold starts</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Zero — always warm</div>
+        <div class="compare-cell"><span class="cross">✗</span> 200ms – 1.8s p99</div>
+        <div class="compare-cell"><span class="partial">~ Edge only, limited</span></div>
+        <div class="compare-cell"><span class="cross">✗</span> Extra cost to avoid</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">TLS / HTTPS</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Automatic on every deploy</div>
+        <div class="compare-cell"><span class="cross">✗</span> Manual — ACM + ALB setup</div>
+        <div class="compare-cell"><span class="check">✓</span> Included</div>
+        <div class="compare-cell"><span class="check">✓</span> Included</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Persistent memory</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Up to 1,000 GB-hours</div>
+        <div class="compare-cell"><span class="partial">~ Add-on cost</span></div>
+        <div class="compare-cell"><span class="cross">✗</span> 128MB hard cap</div>
+        <div class="compare-cell"><span class="partial">~ Limited, extra cost</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Per-request billing</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> None — resource-based only</div>
+        <div class="compare-cell"><span class="cross">✗</span> .50/M via API Gateway</div>
+        <div class="compare-cell"><span class="cross">✗</span> /bin/sh.50/M requests</div>
+        <div class="compare-cell"><span class="cross">✗</span> /bin/sh.60/M invocations</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Execution model</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Compiled C — native speed</div>
+        <div class="compare-cell"><span class="partial">~ JIT compiled</span></div>
+        <div class="compare-cell"><span class="partial">~ V8 isolates</span></div>
+        <div class="compare-cell"><span class="partial">~ V8 / Node.js</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Long-running processes</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Fully supported</div>
+        <div class="compare-cell"><span class="partial">~ 15-min limit</span></div>
+        <div class="compare-cell"><span class="cross">✗</span> 30-second CPU cap</div>
+        <div class="compare-cell"><span class="cross">✗</span> Function timeout limits</div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Tenant isolation</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Per virtual process</div>
+        <div class="compare-cell"><span class="check">✓</span> Per function</div>
+        <div class="compare-cell"><span class="cross">✗</span> Per core only</div>
+        <div class="compare-cell"><span class="partial">~ Per function</span></div>
+      </div>
+      <div class="compare-row">
+        <div class="compare-cell compare-feature">Atomic rollbacks</div>
+        <div class="compare-cell dv-cell"><span class="check">✓</span> Built in — one command</div>
+        <div class="compare-cell"><span class="partial">~ Manual setup required</span></div>
+        <div class="compare-cell"><span class="partial">~ Limited</span></div>
+        <div class="compare-cell"><span class="check">✓</span> Supported</div>
+      </div>
+    </div>
+    <p class="compare-note">AWS cost includes API Gateway at .50/million requests — billed separately on top of Lambda. This single line item doubles most enterprise Lambda bills. Cloudflare's 128MB memory cap and 30-second CPU limit make it unsuitable for stateful production workloads.</p>
+  </div>
+</section>
+
+<!-- COLD START -->
+<section class="coldstart">
+  <div class="container">
+    <div class="section-label">The Cold Start Problem</div>
+    <h2 class="section-title">Cold starts aren't just slow.<br>They cost you customers.</h2>
+    <p class="section-sub">23% of production Lambda invocations experience a cold start in 2026. At 1.8 seconds p99 latency, that's a measurable revenue problem. DataVec eliminates it entirely.</p>
+    <div class="cs-grid">
+      <div>
+        <h3 style="font-size:15px;font-weight:600;margin-bottom:24px;color:var(--text2);">P99 Cold Start Latency — Production</h3>
+        <div class="cs-bar-item"><div class="cs-bar-label"><strong>AWS Lambda</strong><span>~1,800ms</span></div><div class="cs-bar-track"><div class="cs-bar-fill fill-aws">1.8s</div></div></div>
+        <div class="cs-bar-item"><div class="cs-bar-label"><strong>Azure Functions</strong><span>~1,200ms</span></div><div class="cs-bar-track"><div class="cs-bar-fill fill-azure">1.2s</div></div></div>
+        <div class="cs-bar-item"><div class="cs-bar-label"><strong>Vercel</strong><span>~800ms</span></div><div class="cs-bar-track"><div class="cs-bar-fill fill-vercel">800ms</div></div></div>
+        <div class="cs-bar-item"><div class="cs-bar-label"><strong>Google Cloud Functions</strong><span>~600ms</span></div><div class="cs-bar-track"><div class="cs-bar-fill fill-gcp">600ms</div></div></div>
+        <div class="cs-bar-item"><div class="cs-bar-label"><strong>DataVec MNVKD</strong><span style="color:var(--accent2);">0ms</span></div><div class="cs-bar-track"><div class="cs-bar-fill fill-dv">0ms</div></div></div>
+      </div>
+      <div>
+        <div class="cs-quote"><p>"We were saving roughly $5,000 per month on compute, while analytics showed a consistent 4% drop in conversions for every additional 500ms of latency. The industry's standard fixes — provisioned concurrency, SnapStart — only made things worse."</p><cite>— Engineering team case study, published Feb 2026</cite></div>
+        <div class="cs-stat-row">
+          <div class="cs-stat"><span class="cs-stat-num">23%</span><div class="cs-stat-label">of Lambda invocations hit cold starts in production</div></div>
+          <div class="cs-stat"><span class="cs-stat-num">4%</span><div class="cs-stat-label">conversion drop per 500ms of added latency</div></div>
+          <div class="cs-stat"><span class="cs-stat-num">$19K</span><div class="cs-stat-label">what provisioned concurrency costs monthly just to avoid cold starts on AWS</div></div>
+          <div class="cs-stat"><span class="cs-stat-num" style="color:var(--accent2);">$0</span><div class="cs-stat-label">what DataVec charges to eliminate cold starts permanently</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section class="tech" id="tech">
+  <div class="container">
+    <div class="section-label">The Technology</div>
+    <h2 class="section-title">Two technologies.<br>One platform.</h2>
+    <p class="section-sub">DataVec is powered by JSMX and MNVKD — built from the ground up to do what existing platforms cannot.</p>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <span class="tech-tag">JSMX — COMPILER</span>
+        <h3>JavaScript → C.<br>Automatically.</h3>
+        <p>JSMX is our ahead-of-time JavaScript compiler. It converts your code to optimized C before it ever runs. No JIT warmup. No interpreted overhead. Native performance from the first request.</p>
+        <ul class="tech-list">
+          <li>Compiles JavaScript to native C binaries at deploy time</li>
+          <li>Supports WinterTC and Node.js interface extensions</li>
+          <li>Handles standard modules at build time — no runtime cost</li>
+          <li>End-to-end tested — output verified against real JS interpreter</li>
+          <li>Dynamic objects implemented as C structs for fast introspection</li>
+        </ul>
+      </div>
+      <div class="tech-card">
+        <span class="tech-tag">MNVKD — RUNTIME</span>
+        <h3>Always warm.<br>Gets faster under load.</h3>
+        <p>MNVKD is our persistent C runtime — an actor system that keeps your code resident in memory permanently. Unlike V8 isolates or Lambda containers, MNVKD doesn't sleep between requests. Under high load, it becomes more efficient.</p>
+        <ul class="tech-list">
+          <li>Zero cold starts — runtime deployed whole, always running</li>
+          <li>Actor model — stateful processes without the complexity</li>
+          <li>Pipelined requests automatically aggregated under load</li>
+          <li>Per-process isolation — each deployment fully sandboxed</li>
+          <li>HTTP/2 and HTTP/3 natively — no proxy layer, no overhead</li>
+          <li>Atomic deployments via unix hardlinks — zero-downtime versioning</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="calculator" id="calculator">
+  <div class="container">
+    <div class="section-label">Pricing Calculator</div>
+    <h2 class="section-title">See what you'd actually pay.</h2>
+    <p class="section-sub">Adjust the sliders to match your workload and see how DataVec compares to what you're paying today.</p>
+    <div class="calc-wrap">
+      <div class="calc-top">
+        <div class="calc-inputs">
+          <h3>Your Workload</h3>
+          <div class="slider-group"><div class="slider-label">Monthly executions <span class="slider-val" id="exec-val">1B</span></div><input type="range" min="1" max="100" value="10" id="exec-sl" /></div>
+          <div class="slider-group"><div class="slider-label">Resident memory (GB-hours) <span class="slider-val" id="mem-val">5,000</span></div><input type="range" min="1" max="100" value="10" id="mem-sl" /></div>
+          <div class="slider-group"><div class="slider-label">Outbound bandwidth (TB) <span class="slider-val" id="bw-val">5 TB</span></div><input type="range" min="1" max="100" value="10" id="bw-sl" /></div>
+          <div class="slider-group"><div class="slider-label">Developers / seats <span class="slider-val" id="seats-val">10</span></div><input type="range" min="1" max="100" value="10" id="seats-sl" /></div>
+          <div class="slider-group"><div class="slider-label">Build minutes/month <span class="slider-val" id="build-val">5,000</span></div><input type="range" min="1" max="100" value="10" id="build-sl" /></div>
+        </div>
+        <div class="calc-results">
+          <h3>Monthly Cost Comparison</h3>
+          <div class="calc-note">⚠ Calculator estimates are approximate. DataVec pricing will be confirmed once Ben completes real-world infrastructure benchmarks.</div>
+          <div class="result-dv">
+            <div><div class="result-dv-label">DataVec</div><div class="result-dv-sub">All-in — no per-request fees</div></div>
+            <div class="result-dv-price" id="dv-price">$0</div>
+          </div>
+          <div class="result-competitor"><div class="result-comp-left"><span class="result-comp-label" style="color:#c05050;">AWS Lambda</span><span class="result-saving" id="aws-save"></span></div><span class="result-comp-price" id="aws-price">$0</span></div>
+          <div class="result-competitor"><div class="result-comp-left"><span class="result-comp-label" style="color:#4080c0;">Azure Functions</span><span class="result-saving" id="azure-save"></span></div><span class="result-comp-price" id="azure-price">$0</span></div>
+          <div class="result-competitor"><div class="result-comp-left"><span class="result-comp-label" style="color:#a07830;">Vercel</span><span class="result-saving" id="vercel-save"></span></div><span class="result-comp-price" id="vercel-price">$0</span></div>
+          <div class="result-competitor"><div class="result-comp-left"><span class="result-comp-label" style="color:#6860b0;">Google Cloud</span><span class="result-saving" id="gcp-save"></span></div><span class="result-comp-price" id="gcp-price">$0</span></div>
+          <div class="result-annual"><span class="result-annual-num" id="annual-save">$0</span><div class="result-annual-label">Annual saving vs AWS</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-label">Plans & Pricing</div>
+    <h2 class="section-title">Simple. Honest. No surprises.</h2>
+    <p class="section-sub">Every plan includes zero cold starts, automatic TLS certificates, HTTPS, atomic rollbacks, and custom domains. No per-request charges. Ever.</p>
+    <div class="pricing-grid">
+      <div class="plan">
+        <div class="plan-badge">STARTER</div>
+        <div class="plan-name">Starter</div>
+        <div class="plan-desc">For small production workloads and early-stage startups.</div>
+        <div class="plan-price"><sup>$</sup>29</div>
+        <div class="plan-period">per month + usage overages</div>
+        <hr class="plan-divider" />
+        <div class="plan-includes">Includes</div>
+        <ul class="plan-features">
+          <li>2 users</li><li>3 projects</li><li>10M runtime executions</li>
+          <li>50 GB-hours resident memory</li><li>500 JSMX build minutes</li>
+          <li>Basic observability</li><li>Email support</li>
+          <li>Zero cold starts</li><li>Automatic TLS + HTTPS</li><li>Custom domain</li>
+        </ul>
+        <a href="#" class="plan-cta plan-cta-outline">Get Started Free</a>
+      </div>
+      <div class="plan plan-featured">
+        <div class="plan-badge">MOST POPULAR</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-desc">For teams scaling performance and reducing cloud waste.</div>
+        <div class="plan-price"><sup>$</sup>199</div>
+        <div class="plan-period">per month + usage overages</div>
+        <hr class="plan-divider" />
+        <div class="plan-includes">Includes</div>
+        <ul class="plan-features">
+          <li>10 users</li><li>10 projects</li><li>100M runtime executions</li>
+          <li>1,000 GB-hours resident memory</li><li>5,000 JSMX build minutes</li>
+          <li>Advanced observability</li><li>Priority support</li>
+          <li>Zero cold starts</li><li>Automatic TLS + HTTPS</li>
+          <li>Custom domain</li><li>Real-time usage dashboard</li>
+        </ul>
+        <a href="#" class="plan-cta plan-cta-primary">Start Pro — No Card Required</a>
+      </div>
+      <div class="plan">
+        <div class="plan-badge">ENTERPRISE</div>
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-desc">For large teams with high-volume workloads and custom needs.</div>
+        <div class="plan-price" style="font-size:30px;letter-spacing:-0.5px;margin-top:6px;">Custom</div>
+        <div class="plan-period">volume pricing available</div>
+        <hr class="plan-divider" />
+        <div class="plan-includes">Everything in Pro, plus</div>
+        <ul class="plan-features">
+          <li>Unlimited users and projects</li><li>Custom execution limits</li>
+          <li>Custom memory allocation</li><li>Dedicated support contact</li>
+          <li>SLA guarantee</li><li>Volume discounts</li>
+          <li>Custom billing terms</li><li>Onboarding assistance</li>
+        </ul>
+        <a href="mailto:hello@datavec.com" class="plan-cta plan-cta-outline">Talk to Us</a>
+      </div>
+    </div>
+    <div class="overage-note">
+      <h3>Usage overages — only pay for what you use</h3>
+      <div class="overage-grid">
+        <div class="overage-item"><div class="overage-metric">Runtime executions</div><div class="overage-price">$0.50</div><div class="overage-unit">per 1M additional executions</div></div>
+        <div class="overage-item"><div class="overage-metric">Active CPU time</div><div class="overage-price">$0.04</div><div class="overage-unit">per 1M CPU milliseconds</div></div>
+        <div class="overage-item"><div class="overage-metric">Resident memory</div><div class="overage-price">$0.015</div><div class="overage-unit">per GB-hour over limit</div></div>
+        <div class="overage-item"><div class="overage-metric">JSMX build minutes</div><div class="overage-price">$0.03</div><div class="overage-unit">per minute over limit</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="who" id="who">
+  <div class="container">
+    <div class="section-label">Is DataVec Right For You?</div>
+    <h2 class="section-title">We'll be straight with you.</h2>
+    <p class="section-sub">DataVec is not the right fit for everyone — and we'd rather tell you upfront than waste your time.</p>
+    <div class="who-grid">
+      <div class="who-fits">
+        <h3><span style="color:var(--accent2);">✓</span> Strong fit if you are:</h3>
+        <ul class="who-list">
+          <li><span class="who-check">✓</span>An API-first SaaS company with a growing AWS or Vercel bill</li>
+          <li><span class="who-check">✓</span>A Series A or B startup whose cloud spend is becoming a board-level conversation</li>
+          <li><span class="who-check">✓</span>A team building AI agents that cannot tolerate cold starts or unpredictable latency</li>
+          <li><span class="who-check">✓</span>A fintech or data company processing high transaction volumes where latency costs money</li>
+          <li><span class="who-check">✓</span>A developer who wants C-speed performance without leaving JavaScript</li>
+          <li><span class="who-check">✓</span>A pre-launch startup choosing infrastructure before committing to AWS</li>
+          <li><span class="who-check">✓</span>A team tired of debugging unexpected cloud bills at the end of every month</li>
+        </ul>
+      </div>
+      <div class="who-not">
+        <h3><span style="color:var(--accent3);">✗</span> Not yet the right fit if you need:</h3>
+        <ul class="who-list">
+          <li><span class="who-cross">✗</span>GPU compute for AI model training — not offered yet</li>
+          <li><span class="who-cross">✗</span>SOC 2 Type II certification — on our roadmap</li>
+          <li><span class="who-cross">✗</span>Multi-region redundancy from day one — coming soon</li>
+          <li><span class="who-cross">✗</span>Full migration of a complex legacy monolith — better to start fresh or migrate piece by piece</li>
+          <li><span class="who-cross">✗</span>Enterprise procurement with legal review cycles — we work better with technical decision-makers who move fast</li>
+        </ul>
+        <p class="who-note">We'd rather be honest about current limitations than oversell and underdeliver. These features are actively being built — reach out and we'll give you our real timeline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title">Straight answers.</h2>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do I get HTTPS automatically when I point my domain?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Yes — automatically. When you point your domain to DataVec and deploy, we provision a TLS certificate and configure HTTPS without you touching anything. No AWS Certificate Manager, no load balancer config, no manual verification steps. The certificate auto-renews so you never have to think about it again.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How is DataVec different from Cloudflare Workers?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Cloudflare Workers run in V8 isolates with a 128MB memory cap and a 30-second CPU limit — unsuitable for stateful production applications. DataVec's MNVKD runtime keeps your code warm in persistent memory with no cap, supports long-running processes, and compiles JavaScript to native C for execution speed Cloudflare can't match. Cloudflare is great for simple edge routing. DataVec is for teams building real production backends that need persistent state.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What happens to my npm modules? Do they all work?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Most modules work fine — JSMX handles standard module dependencies at build time with no runtime cost. The majority of cloud function code uses light modules: JSON manipulation, fetch calls, database clients. Deploy on our free tier first and test your specific workload — no commitment required.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is the JavaScript-to-C compilation reliable for production?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Yes. JSMX converts your code and its tests simultaneously, then runs end-to-end verification comparing compiled C output against a real JavaScript interpreter. Periodic canaries verify correctness in production continuously. You're not trusting compiled output blindly — we test it the same way you test your own code.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What will my bill look like? Any surprises?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">No per-request charges — ever. Your base plan covers a fixed allocation of executions, memory, and build minutes. Usage beyond that is billed at the rates on our pricing page. Bandwidth is metered at the 95th percentile, not peak — traffic spikes don't create billing spikes. Set overage alerts and hard limits in your dashboard.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I deploy something broken? Can I roll back?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Rollbacks are instant and atomic — one command switches back to any previous version with zero downtime. The switch happens within a single coroutine continuation and cannot be interrupted. Staging environments via a secondary domain are available on all plans.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How does DataVec handle traffic spikes?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">MNVKD gets more efficient under load, not less. When the event loop sees high concurrency, it automatically aggregates pipelined requests — baked into all bidirectional sockets. You start hot and get hotter. No cold-start penalty and no performance cliff when traffic surges.</div></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is my code isolated from other customers?<span class="faq-icon">+</span></button><div class="faq-a"><div class="faq-a-inner">Yes. Each deployment runs in its own isolated virtual process within MNVKD. Isolated processes mask themselves after execution and cannot access other tenants' memory — per-process isolation, not per-core like Cloudflare Workers. Your code and data cannot touch another customer's deployment.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="section-label" style="text-align:center;">Get Started</div>
+    <h2>Stop overpaying for cloud.<br>Start shipping faster.</h2>
+    <p>Deploy your first app on DataVec today. Free tier. No credit card. Automatic HTTPS. Zero cold starts from day one.</p>
+    <div class="cta-row">
+      <a href="#pricing" class="btn btn-primary btn-xl">Start Free Now</a>
+      <a href="mailto:hello@datavec.com" class="btn btn-outline btn-lg">Talk to the Team</a>
+    </div>
+    <p style="margin-top:20px;font-size:12px;color:var(--text3);">Questions? Email hello@datavec.com — a real person will respond.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACMA1ADASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAUGAwQHAgEI/8QARBAAAQMCAQYICwcEAgMBAAAAAQACAwQRBQYhMUFS0RIVFlFhcZGSExQiMlNUcoGhscEjNUJzk+HwMzSjskNiJESig//EABsBAAEFAQEAAAAAAAAAAAAAAAACAwQFBgEH/8QAOREAAgEDAAcECQQDAAIDAAAAAAECAwQRBRIUITFRkRNBceEGFRYyU2GhsdFSgcHwIjRCI5IkQ3L/2gAMAwEAAhEDEQA/APxkr7g0EDsJpXOhjJMTbktHMqEug4J90Un5TfktD6OxTrTzy/kjXPBGfxen9BF3Ani9P6CLuBYq+vpKJnCqZmsJ0N0uPuUHV5U5yKWl6nSH6DetDc3tpbbqjWeXFkeMJy4Fh8Xp/QRdwJ4vT+gi7gVKqMexOa//AJHgwdTGgfHStKWqqpT9rUzP9p5Kqqmn7de5Tz0X5Hlby72dBdDStNnRQg9LQvgipCbCOAn2Qucoo/tDH4S6+QrZ/mdI8Xp/QRdwJ4vT+gi7gXPYamphIMVRLHbZeQpKkyixGAgSPbO3meM/aFJpaftpPFSGPqIdvJcGXDxen9BF3AvjqSld51NCetgWhheO0daRG4+AmP4XnMeoqVV3RnQrx1qeGhiSlF4ZpyYXhz9NFAPZYB8lqzZPYXJ5sT4jzsefrdSyInZ28/eguiBTkuDKxU5K6TTVXU2Rv1G5Q9dhNfRgulp3Fg/Gzyh8NHvV/RVtfQNrU9zMX/eY7G4kuO85kivOJ4HRVoLmtEEu2waesa1UsTw6pw+XgTs8k+a8ea5Zq90XXtN8t8ea/nkSYVYzNNERVo6EREAEREAEREAEREAEREAEREAEREAEREAEREAFlpQDVRA6OGPmsSy0n91D7bfml0/eRx8Dofi9P6CLuBPF6f0EXcCyovTOzjyKzLMXi9P6CLuBeZaen8E/7CLzT+ALOvM39J/slclTjjgCbOaIiLzEtAiIgAiIgAiIgAiIgAiIgAiIgAiIgDfwKqjpcRY+ZrXRO8l/CF7A6/crz4vT+gi7gXN1dslq7xvDhE915YPJPSNR+nuWl9H7mOXQn371/KI1xH/pEl4vT+gi7gTxen9BF3AsqLVdnHkRMsxeL0/oIu4FGZSYdHUYa50MTWyxeWOC21xrH85lMImq9tTrU3Ta4nYycXk5kikMfovEcSkjaLRu8uPqOr3aFHrzmtSlSm4S4osk8rKCIibOhERABERABERABSGAUXj2JMjcLxs8uTqGr3qPV1yUofFcOEzxaSezj0N1D6+9WWirTabhJ8FvY1VnqxJPxen9BF3Ani9P6CLuBZUW97OPIgZZi8Xp/QRdwJ4vT+gi7gWVYK+pZSUctTJoY29uc6gkyVOEXKSWECy9xWcsKiLw7KKFjG8DypC1oGc6B2fNV9e55XzzPmkN3vcXE9JXhed3lxtFaVTn9iyhHVjgIiKMKCIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACsMuPeL4XT0tHnlETQ95GZubQOlV5FJt7qpbqXZvDe4TKClxPUsj5ZDJI9z3uzlzjcleUVjwTJ5s9O2orXPAeLtY02zc5K7bWlW7nq01lnJTUFllcRW2vyZp3Qk0b3slAzBxuHblU3tcx5Y4EOabEHUUq8sK1o0qi4hCpGfA+IiKGLCIiACsWTuOujc2krXl0ZzMkOlvQehV1FJtbupa1FOm/MTOCmsM6air+SeKGeMUM7rysH2ZP4m83WFYF6Ba3MLmkqkO8rpxcXhhERSRIWOpgiqYXQzsD2O0grIiTKKksPgBQ8cwuTDai1y+F/mP+h6VHLouIUkVbSPp5RmcMx1g6iuf1cElNUyQSiz2OsVh9L6O2SprQ91/T5fgn0amusPiYkRFTjwREQAREQAREQAREQAREQAREQAREQAREQAWWk/uofbb81iWWk/uofbb80un7yOPgdIREXp5VheZv6T/ZK9LzN/Sf7JSZcGdRzREReXloEREAEREAEREAEREAEREAEREAEREAFv4FW+IYiyUn7N3kydR3aVoInKVWVKanHijjSawzpoIIBBuDoKKFyTrvGaDxd5vLBm626tyml6PbV43FKNSPeVsouLwwiInxJDZWUXjOHeGY28kHldbde/3KlrppAIIIuDpC5/jVGaHEZIPwecw/8AU6NyyXpDaaslXj37n/BLt57tU0kRFmiUEREAEREAEREAb+BUXj2JRxEfZjypOofyyvwAAsMwUNknQ+LYf4d4tJP5XU3Vv96mVutC2mz26k+Mt/4IFeetLwCIiuBkKrZaVvCkjoWOzM8uTr1D+c6sdbUMpKSSok81jb9fMFzyomfPO+aQ3e9xcVn9P3fZ0lRjxlx8PMkW8MvWMaIixpNCIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiACIiAC6VTvZJBG+K3Ac0FtuZc1UrhOOVVBH4HgtlhGhrsxb1FXOhtIU7SclU4S7/AZrU3Nbi8Ln2NPZJi1S+MgtMhsRrU3FlIKmoEE8AggkBY5zXkubfXdQOJ0clDVugkz2ztdqc3UVL01eQuqMXR3xT3v593URRg4PeayIizZJCksCwp+JTO8vwcTLcJ1rnqCjVZ8iJ28GopSDwriQG2rRuU/RlGnXuYwqcGN1ZOMW0eq3JeMQF1JPIZAL8GSxDujNoVXIIJBFiNIXR6qohpYHTTvDGNGknT0Bc6qJPCzyS2tw3F1ua5Vhpy0t7eUeyWG+KG6E5Szk+08skE7JoncF7DcFdCoKllXRxVMeh7b25jrHaucq15EVBdTz0zj5jg9vv0/L4o9H7p067pPhL7oLiOY55FiREWzIQREQAVZy1ox9lXMGfzH/Q/P4KzLUxenFVhs8FrlzCW9Yzj4qFpC3Vxbyh393ihynLVkmc9X1oLnADSTZfF7h/qs9oLztLLLEleTmJ7MXfTk5iezF31dUW19n7Xm+vkQdomUrk5iezF305OYnsxd9XVEez9rzfXyDaJlK5OYnsxd9OTmJ7MXfV1RHs/a8318g2iZSuTmJ7MXfTk5iezF31dUR7P2vN9fINomUl2TmJgZo4z1PCxyYFirNNKSP+r2n6q9Iky9HrV8G+q/B3aZHOZ6Oqg/rU0sY53MICwLpq0K7B8PqwfCQNY8/jZ5J/f3qFX9HJJZpTz4/kXG5XeigopjF8BqaIOlhPh4RpIHlN6wodZ6vb1beepUWGSIyUllBSlPgOITwMmjbHwHtDm3fqUWug4J90Un5TfkrHRFjTvKko1M7l3Ddabgsoq3JzE9mLvr3T5PYkyeN7mxWa4E+X0q5Ir9aAtU85fXyI+0TCIivBgLzIC6NwGkghekXHvApXJzE9mLvpycxPZi76uqKk9n7Xm+vkP7RMpXJzE9mLvpycxPZi76uqI9n7Xm+vkG0TObVEL4J3wyW4bHFrrHWs+HYfUV73spw0lgueEbL7jf3vV/mu+alsh/7qo9gfNZm2tYVbxUZcMtdMkqUmoaxq8nMT2Yu+nJzE9mLvq6otN7P2vN9fIi7RMpXJzE9mLvpycxPZi76uqI9n7Xm+vkG0TKVycxPZi76cnMT2Yu+rqiPZ+15vr5BtEylcnMT2Yu+nJzE9mLvq6oj2fteb6+QbRMpDsnsUGiFjuqQLBLg+JxedRyn2fK+SvyJEvR22fCTXT8HVcyOayRyRO4MjHMdzOFivC6VLFHKwsljZI06nC4UPiOTlHOC6mJp5OjO0+5Vtx6PVYLNKWt9GORuE+JWsFrTQYhHPn4HmvHO06d6v7XBzQ5pBBFwRrXPMQoamhm8HUR2v5rhnDuoq0ZIV3jFEaV5+0g0dLdXZo7E9oK5lRqStam7l4nK8VJayJxERasiBQeV9F4ehFUxv2kGnpadP8AOtTi+Pa17CxwBa4WIOsKPdW8bijKlLvFQlqvJzNFtYrSOoa+WndezTdp526lqrzipCVOThLiiyTyshERIOhERABbuCUZrsRjhIJYDwn+yP5b3rSVzySofFqDxh4tJPn6m6t6sdF2m1XCi+C3v+/Mbqz1I5JoAAAAWA0BERegFcERYa2oZS0slRJ5sbb9fQuSkopyfBHUslcyzruFIygjOZvlydeofX3hVtZKiZ8875pDd73FxUlheA1laBI8eAhP4nDOeoLz+vKtpG5lKCznh8kWEcU47yJWSGGaZ3BiifIeZrSVdaLAcOpgCYvDP2pM/wANCk2Naxoaxoa0aABYK0oejlSSzVnjw3jUrldyKFFg2KSebRyD2rN+aztydxQ6YWN65Aruinx9HbZcZN9PwNu5kUrk5iezF305OYnsxd9XVEv2fteb6+RzaJlK5OYnsxd9OTmJ7MXfV1RHs/a8318g2iZSuTmJ7MXfTk5iezF31dUR7P2vN9fINomc1njdDPJC+3CY4tdbnBsvC2sW+9av89/+xWqsZViozcV3Mmp5QRFLYVgVXWgSP+whOhzhnPUEuhb1K8tSmssJSUVlkSskMM0xtDFJIeZrSVdaLAsOpgCYfDP2pM/w0KTa1rWhrWhoGgAWV9Q9HKklmrPHhvI8rldyKFFg2JyebRyD2rN+aztyexU2vA1vXIFd0U+Po7bLjJ/T8DbuZFK5OYnsxd9OTmJ7MXfV1RL9n7Xm+vkc2iZSuTmJ7MXfTk5iezF31dUR7P2vN9fINomUrk5iezF315lyfxGKJ8jmx8FjS4+XqCu6wYj931H5TvkUiegLWMW0318jquJ5OcoiLGE0IiIAKbo3DF8O8QkI8bgBNO4/ibrb/PooRe4ZXwytlicWvYbtI1FSLet2Uv8AJZi9zXy/PITKOUeXNLXFrgQ4GxB1L4pnFomV9GMWpmgO82pYPwu2ur+c6hly4o9jPGcp70+aCMso+sa57wxoLnONgBrKmcQc3C8PGGxEeMSgOqXDVzN/n1XzCY2UFG7FqhoLs7aZh/E7n6gomaR80rpZHFz3m7idZT6/+NSz/wByXSP5f28RPvP5I+Pke+3De51tFzey8oihN54jgVkyIhk8NPUWIj4PAvzm9/51qtq7ZIyRvwZjGEcJjnB46b3+RCt9B0ozu02+CbGa7xAl0RFuiAEREAEREAc6xKLwGIVENrBsjgOq+ZYof6rPaCkMqGcDHKi2g8E9rQo1pLXBw0g3XmtzBU68o8m/uWcXmKZ0xFTeU2I7MHcO9OU2I7MHcO9a/wBf2nz6EPZ5lyRU3lNiOzB3DvTlNiOzB3DvR6/tPn0DZ5lyRU3lNiOzB3DvTlNiOzB3DvR6/tPn0DZ5lyRU3lNiOzB3DvX1mU+IA+VHTuHsnehaftPn0DZ5lxRVinyqNwKikzayx30O9TeHYlSV7SaeS7gLljszh7lNt9I21w9WnLfy4CJU5R4o3ERFOGwqnlVhDYD47TMAjJ+0YNDTzjoVsXieJk0L4pBdj2lpHQoV9Zwu6ThLj3PkxdObg8nNV0HBPuik/Kb8lQ6uF1NVSwP0xuLetbcGNYnDCyGKp4LGCzRwGmw7FkdF3sLGrJ1U+W4mVYOolgvqKi8f4t63/jbuWSnx3FX1EbHVVw54BHg28/Ur1ekNs3jVl0X5GNnkXZERXxHCIvMhIjcRpAK43gD0iovH+Let/wCNu5OP8W9b/wAbdyofaK1/TLovySNmkXpFReP8W9b/AMbdycf4t63/AI27ke0Vr+mXRfkNmkYMb+96v813zUtkP/dVHsD5qAnlfNM+aV3Ce83cbWuVs4ZiNRh8j304YS8WPCF1nLW5hTvFWlwy31ySZxbhqnQUVN5TYjswdw705TYjswdw71p/X9p8+hF2eZckVN5TYjswdw705TYjswdw70ev7T59A2eZckVN5TYjswdw705TYjswdw70ev7T59A2eZckVN5TYjswdw71kjyprAftKeBw6AR9V1aetH3voGzzLcigKTKilkIbUQvhv+IHhDepyGWOaJssT2vY4XDgcxVjb3lC5X/ilkalCUeKPaIikiTBXUsNZTugnbwmntB5wqc0TYFjbeHctadI/Gw/ztCvChMsKQTYcKho8uA3v/1OY/RU+l7TXp7RT3Thv/ZD1GeHqvgyZY5r2NewhzXC4I1helA5H13hqU0ch8uHO3pb+x+inlPtLiNzRjVj3jc46rwERFJEkBllReFpW1jB5cXku6WncfmqiulyxslidFIOEx4LXDnBXPMRpn0dbLTP0sdmPONRWP8ASC01Kirx4S4+Pn/BMt55Wqa6IizpJCIiANzBqM12IRwW8m/CeeZo07veugNAaA0AADMAFCZIUPi9Cal4+0nzjobq7dPYpxbnQlp2Fvry4y3/ALdxBrz1pY5BERXIwFWMs627o6CM6PLktz6h9exWKsqGUtLJUSeaxtz09CrmTNI6urZcVqhwrPJYDoLuf3fzQqjSkp1dW1p8Z8fku8epJL/N9xsZP4E2FraqtYHSnO2M6G9fSrAiKda2tO1p6lNeY3Obk8sIi8ve2Nhe9wa1ouSTYBSG8CT0ig6zKaiiJbAx85GseS3tO5R8mVVST9nSxN9ok7lW1dMWdN4c8+G8dVGb7i2Iqc7KfECM0VMOpp3r5ymxHZg7h3qO9P2nz6CtnmXJFTeU2I7MHcO9OU2I7MHcO9Hr+0+fQNnmXJFTeU2I7MHcO9OU2I7MHcO9Hr+0+fQNnmR2LfetX+e//YrVXuoldPPJM+3CkcXG2i5N1NZJ4aKmoNXM28UR8kHQ537LJ0qEru41KfeyW5KEcs3MnMDDA2srWAuOeOMjR0np6FZERb20tKdrTUKa8yBObm8sIiKUICLXrK6kpBepnZH0E5z7tKip8p6FhIijml6bABRa17b0HipNJi4wlLgidRVh+VexQ+8y/svPKuT1Jv6n7KI9N2S/7+j/AAL7CfItKKrcq5PUm/qfsnKuT1Jv6n7Lnruy/X9H+A7CfItKwYj931H5TvkVXeVcnqTf1P2XioynkmgkiNG0cNpbfh6LjqSKmmrNwaU/o/wCoTzwMuA4BBNSsqq0Od4QXbGDYW1E2WbFsnaY0zpKFro5Gi/A4RId0Z9ak8CqY6rDIHRuF2MDHDWCBZbFbUx0lM+eVwDWC/WeZFLR9m7VZisY49/jkHUnrnOEUtx9U+rUf6X7px9U+rUf6X7rI9lbfEf/AK+ZMzLkRKKW4+qfVqP9L904+qfVqP8AS/dHZW3xH/6+YZlyN/Iykc5s9S8/ZOHg+Ac4fz3/AJzqzCNgj8GGN4FrcG2ZReTOIePUrw9sbJWOztYLCx0G3apZbbRdKlC1j2byuZCqtubyVrLKiIghqozaOIeDMYFg0aiPl2Krq7ZXSBmDPZYnwj2t0aM9/oqSsvp2nCF29XvSbJVBtw3hERUw8FJZPYgaCvBefsZPJk6OY+5RqJ2jWlRqKpDijkkpLDOmggi4zhFBZJYh4xS+KSu+1hHk31t/bcp1ei2txG5pKpHvK2cXF4YREUgSEREAUrK8Djp3sNUOpjK/75d7DVDrzrSP+1U8WWVP3EERFCFhFsw0FbNYxUkzgdfANu1bTMBxV/8A6th0vaPqn4Wtefuwb/ZiXOK4sjEUu3J3FDpjjHW8L7ycxPZi76d9XXXw30OdpDmQ6KY5OYnsxd9OTmJ7MXfXfV118N9A7SHMh1kpp5Kadk8LuC9huCpTk5iezF305OYnsxd9djo+7i8qm8+AdpDmW+jnbU0kVQ0WEjQ63N0LMtTBqeSlwyGnmtw2Ag2N9ZW2t/RcpU4ufHCz4ldLGdwRETpwpOV0Yjxp7h/yMa74W+iiFO5bfesX5A/2coJed6Sio3dRLmWVL3EFlpP7qH22/NYllpP7qH22/NRKfvIU+B0hERenlWF5m/pP9kr0vM39J/slJlwZ1HNERF5eWgREQAREQARF6jY+R3BjY57uZouV1LO5AeUW9FhOJSC7aKYe0OD81nbk/ipGenaOuRu9SI2VxL3ab6MS5xXeRSKY5OYnsRd9OTmJ7MXfTnq66+G+hztIcyHRTHJzE9mLvpycxPZi76PV118N9A7SHMh1OZIVz4a4UjnXimvYHU7n+nYsfJzE9mLvrZwzAcQp8QgnkbGGMeHOs/UpNlaXlCvCag1v5d3eInOEotZLYiIt4QAsFfGJqGeI/jjcPgs6EAixzhJnFSi4vvOp4Od4ZVuoq6Kpbc8E+UOcawuhRSMlibLGeEx4DmnnBXNFbMja7wkDqGQ+VH5TOluse4/NZHQF52dR0JcJcPHzJdxDK1iwoiLYEMKuZZ0XDhZXMGdnkSdWo9vzVjWOohZPA+GQXY9paVEvbZXNCVN9/Dx7hcJassnNkWatp30tVJTyedG63X0rCvOZRcW4viiyTyFt4RRurq+OnF+CTd55mjStRXDI+i8BRGrePLm83oaN+5T9GWm1XCg+C3vwG6s9SOSca0NaGtFmgWA5l9RF6CVwRFiq52U1NJPIbNY25XJSUU2+CO8Su5ZVjnyRYdFcm4c8DWdQ/nQrBh9M2kooqdtvIbY9J1ntVNwpz6/KKKWXO58vhD7s9vgryqXRU9pq1bl97wvBf1D1VaqUQiIrwYCqeWNe99UKFjiI4wC+2txz/BWxVHFMExOoxGonZC0tfIS08MaNSptN9tK31KSby9+OQ9Q1dbLIBFLcnsV9A39QJyexX0Df1Asl6vuvhvoyZ2kOZEopbk9ivoG/qBOT2K+gb+oEer7r4b6MO0hzIlFLcnsV9A39QJyexX0Df1Aj1fdfDfRh2kOZEopbk9ivoG/qBOT2K+gb+oEer7r4b6MO0hzItjXPe1jRdzjYDnK6Hh1M2jooqdv4G5zznWe1VDJ6kccfZDKBeBzi4dLf3srutD6O22rGdVrfw/P9+RHuZZaQREWlIoUBlLjTqUmkpT9tby37HQOlTdVM2nppZ3aI2Fx9wXOZpHzTPlkN3vcXOPSVRacv5W9NU6bw5fREihTUnlnyR75Hl73FzjnJJuSvKIsU3kmhERABERABERAGWnqJ6d/DgmfE7WWutdfaqrqaog1E8kttHCdcBYUS+0nq6ud3I5hcQiIkHQiLPQ0s1ZUtp4G3e7n0Ac5SoxlOSjFZbBvBtZOtndi8LYJHMN7vI2RnKkqrKeds0rIIYSwOIY43zjnWeDB58Nw+sljcJqh8XBbwRbgjXb+alVVb1J3OjqMaabi5Zb+yX8v9hlKNRtkrBjlWKh76kiohkzSROHk26OZfa7DYpYDXYW4ywfjj/HH+yiVnoauejnE1O8tcNPMRzFQ4XXaLUuP8lz714fgW4Y3xMCK4YfhuH4nEzEZaUxmQHhRh1mkg2vmWrlHglNT0jqukaY+ARw2XJBBNri6lVNDV40XWi048fnjmIVaOtqlZRFt4TRHEK1tMHiMEEl1r2AVXTpyqTUIrex1tJZZ5wyeWnr4ZYbl4eABz3zWXRFH4bg9FQ2dHHw5R/wAj8593MpBbjRFjVs6bVR8e7kQa1RTe4IiK3GQiISALnMEAUXKd/DxyoI0Atb2NCjQCTYC5Ky1s3h6yaf0jy4e8qfyPw1r74hM24BtEDz6z/OleewoSv7uSh3tvwWSxclThvPGE5Nvla2WucY2nOI2+d7+ZWKkoKOkA8Xp42Efitc9pzrZRbS10db2q/wAI7+b4kKdSUuIREU4bCIiACIiACIiACIiACIiAKflt96xfkD/ZyglO5bfesX5A/wBnKCXnmlP9yp4ljS9xBZaT+6h9tvzWJZaT+6h9tvzUOn7yFvgdIREXp5VheZv6T/ZK9LzN/Sf7JSZcGdRzREReXloEREAFsUNHUVs4hp2FztZ1NHOSsLGue9rGAuc42AGsq/YPQR4fRthaAXnPI7aO5Wei9HO9qPO6K4/gaq1NRfM0cOycpIAHVN6iTmOZo92v3qYiiihZwIo2Rt5miwXtFt6FpRt1inFIgynKXFhERSBIREQAREQAREQAREQAREQBzJbGH1L6OsjqWaWG5HONYWui8vhNwkpR4otWs7jpUErJ4WTRm7HtDgegr2q5kZXcKN1BIc7Luj6tY+vvVjXotlcq6oxqLv4+JWzjqywERFLEFZy0os0dcxujyJPofp2KsLpFZTsqqWSnk817bHo6VzuphfT1EkEgs9ji0rF6ftOyrKrHhL7k23nmOORmwqkdXV8VO29nG7jzN1ldBY1rGNYwBrWiwA1BQeR1F4GkdWPb5c2ZvQ0bz8gp5XOg7TsKGu+Mt/7d35Ga89aWOQREV2MBVnLSu8ygjP8A3k+g+vYrDVzspqaSeQ2axtyueVc76mpknkN3Pdcqg09edlR7GPGX28yRbwy88iTyPbfGWm3mxuP0+quqpeR7rYyBzxuCuiX6P42T93/By498IiK8GAiIgAiIgAiIgAiIgAiIgCuZPNByjxJ+sOeO1/7Kxqu5PEcocTbrL3H/AO1YlWaJxs/7y+47V94IiKzGiMyofwMDqLaTwW9rgqKrzlS0uwOe2rgn/wCgqMsZ6RZ2mP8A+f5ZNtvdCIioCQEREAEREAEREAEREAEREAFLZLVcNJid5yGskYWcI6jcH6KJRPW9aVCrGpHijko6ywzodZX0tLTmeSZnBAuAHAl3QFz1xu4m1rlfEUzSOkpXzjlYSG6dJQCIirR0suTeNU9PSCkq3FgYTwH2uLE3sbL7lHjdNUUjqSkcZOGRw32IAAN7C6rKK09b3Gz7PuxjGe/HIa7GOtrBTuR1POcR8Z8E7wIYQXkZrqCVsyL8b8WfwyPFb+QDp4Wu3QuaHpqpdxzndv3fLn8grPEGWFERb8rwiIgAo7KKqFLhMzr2e8eDb1n9rqRVNytrhU1wp4zeOC4Ntbte7tVbpW6VtbSfe9yHaUNaRCLouHQCmoYIALcBgB69fxXPqdvCnjadbgPiukqn9G4LNSfgvuPXL4IIiLVEQKJxvG4cOcIWs8LORfg3sG9allz7GnOfi9WXG58M4e4Gw+Cp9M3tS1op0+LY9Rgpy3m9LlLiTz5HgYx/1Zf5rE7KDFToqAOqNu5RSLIy0jdS41H1JnZw5Enx/i3rf+Nu5OP8W9b/AMbdyjESduuviS6sOzjyJPj/ABb1v/G3cnH+Let/427lGIjbrr4kurDs48joGCTy1OFQTzO4UjgeEbAXznmW6o7Jv7kpvZPzKkV6BaScqEG+OF9ivn7zCIikCSn5bfesX5A/2coJTuW33rF+QP8AZygl55pT/cqeJY0vcQWWk/uofbb81iWSlIFTEToDwfioUPeQt8DpKIi9QKsLzLnieBslekXGsoDmSLYxGnNLXTQOFuA8gdWr4LXXmE4OEnF8UWied4RESTpLZJwCbGWE5xE0v+g+JV3VTyIA8cqHaxGB8VbFt9AQUbTPNv8ABBuHmYREV2MHx7msYXuIa1ouSdQVZr8qHCRzKKFpaDYPkvn9ylcpnOZgdSWmxs0e4uAKoizenNI1recaVJ4ys5JNCnGSyyXdlFihNxLG3oDAvBx/Fif7q3/5t3KLRZx390//ALJdWSezhyJPj/FvW/8AG3cnH+Let/427lGIubddfEl1YdnHkSfH+Let/wCNu5bOF41ic2I08MtTwmPkAcOA0XF+pQa3ME+96T81vzT1ve3LqxTqS4rvfM5KEcPcdBREXoRXBERAHMkRF5aWpmoqh9JVx1EfnMdfr5wuh00zKinjnjN2PaHBc2VnyMrsz6CQ6Lvj+o+var/QN52VXsZcJffzI9xDK1izIiLZkIKv5Q4O6rxOnlibZsp4EpGq2vs+QVgRRrq1p3VPs58BUJuLyjzGxscbY2ANa0AADUF6RFISxuQkIix1MzKenknkNmMaXFEmorLAr2WldZrKBh0+XJ9B9exVdZqyofVVUlRJ5z3XPR0LCvOr+6d1XlU7u7wLKnDUjgkcm5RFjVM4nMXFvaCFfFzSJ7o5WyMNnMcHA9IXRqWZtRTRzs82RocFofRysnCdLk8/3oR7lb0zKiItKRQqxX5RVdNWzU4ghIjeWgm9yL9as6pmV1I6DEjUBv2cwuDzOGYj6+9U+mqtejQVSi8Ye/wHqCi5YZl5U1nq8Hx3pyprPV4PjvUAiy3ra8+IyX2MORP8qaz1eD4705U1nq8Hx3qARHra8+Iw7GHIn+VNZ6vB8d6cqaz1eD471AIj1tefEYdjDkT/ACprPV4PjvTlTWerwfHeoBEetrz4jDsYciaycqy7KIyvAaakvBtoBOf5hXNc1gkdDMyVhs5jg4HpC6LR1DKqljqIz5L236uhX3o9c68J05Pennr/AH6ke4jhpmVERaMjGGsgFTSSwO0SMLb8y51Kx8Uro5Glr2khwOohdLVdypwd0xNdStu+32jBpd0jpVBp2xlXpqrBZcft5EihUUXhlUREWMJoREQAREQAREQAREQAREQAREQAREQARFkggmncWwwySkamNJ+S6k5PCAxosk0M0LuDNE+N3M9pB+KxoaaeGAV6yXcHYHT21cIHvFUeNj5ZGxxsc97jYNAuSugYPTOo8Ngp3ec1vldZNz81oPRyEu3lPG7GPqiNctaqRtoiLYkMIihMbx6GkDoaUtln0E6Ws3noUe4uaVtDXqPCFRi5PCPeUmKihgMELv8AyZBmt+Ac+5Uo5zcr3NJJNK6WV5e9xuSda8LCaQvp3lXWe5LgifTpqCwfWktcHDSDddKhe2WJkrfNe0OHUVzRXHJGvbPReKPd9rDo6W6uzR2Ky9HriMKsqb/64eKG7iOVknERFsSEFXMfwGWpqXVVGWlz872E2z84VjRRbq0p3VPUqLcLhNweUUGTB8TYbOo5D7Nj8l44rxH1KfuFdBRU79HKHdN/Qe2mXI59xXiPqU/cKcV4j6lP3CugouezlH9b+gbTLkc+4rxH1KfuFOK8R9Sn7hXQUR7OUf1v6BtMuRo4BHJDhFPHKxzHtBu0ixGcreRFf0qapU4wXcsdCO3l5CIicOFPy2+9YvyB/s5QSnctvvWL8gf7OUEvPNKf7lTxLGl7iCAkG4zFEUAcOk0sonpophokYHdoWRV/I+vbJSmhkd9pFnZ0t/ZWBekWdwrmhGou/wC/eVs46smgiIpQgisdwaPEbSscI52iwdbM4cxVZqMDxOEkeLGQc7CDf6q9oqm70Pb3Mtd5T+Q9CtKKwc8OHYgDbxGp/SduTi7EPUar9J25dDRQfZul+ti9pfIqGR7nQ4vJBI1zHOjI4JFjcEHereqJW1D6TKKaoZ50c5NufPnCu1LPHU07J4XcJjxcFPaDqxUJ2+d8W+hyut6lzMqIiviOYquCOpppIJR5D22NlT6zJ3EIXnwTGzs1FpAPYVdUVfe6No3mHU4rvQ5CrKHA5+7CsSBsaKb3NuvnFeI+pT9wroKKs9nKP639B3aZcjn3FeI+pT9wpxXiPqU/cK6CiPZyj+t/QNplyOfcV4j6lP3CtrCMOr48UppJKSZrGyAklhsBdXdEun6P0YTUlN7vA47htYwERFoCOEREAcyREXlpahZaSd9NUxzxmzmOuFiRdjJxaa4oOJ0ijqGVVLHUR+a9tx0dCyqr5GV1nvoJDmdd8fXrH17VaF6JYXSuqEanf3+JW1IaksBERTRAREQAVay0rrNZQRnT5cn0H17FYaiZkED5pDZjGlxXPK2ofVVctRJ50jieroVDp677Kj2UeMvsSLeGZZ5GFERYsmhWjI3EAWHD5XZxd0XSNY+vaquvUb3xyNkjcWvabgjSCpdjdytKyqL9/ARUhrxwdLRROA4xFiEYikIZUgZ26ndI3KWXoNCvTrwU6bymV8ouLwwsVXTQ1UDoZ2B7Haj81lROSipJqSyjieCr1eSz+ETSVLSNTZBo943LRkydxRvmxMf7Mg+quyKoqaBtJvKTXg/zkeVxNFEdgeKg2NI73PafqvnEmK+pu7w3q+ImPZ22/VL6fg7tMuRQ+JMV9Td3hvTiTFfU3d4b1fER7OW/6n9PwG0y5FD4kxX1N3eG9OJMV9Td3hvV8RHs5b/qf0/AbTLkc0lY+KV0cg4L2OLXDmIU/kjiQhlNDM6zJDeMnU7m9/8ANKiMW+9av89/+xWqCQbjMVmaFeVnca8O59USpRU44Z01FCZO4yyrjbTVLg2oaLAn/k/dTa31tc07mmqlN7ivlFxeGERFIEkZiGCUFa8yOY6OQ6XRm1+saFDVGS1QHHwFTE8f9wWn4XVsRV1xoq1rvMo7/luHI1Zx4Mpbsm8SBzCE9T185OYnsxd9XVFE9n7T59fIXtEylcnMT2Yu+nJzE9mLvq6oj2fteb6+QbRMpXJzE9mLvrzLk/iMUT5HNj4LGlx8vUFd1gxH7vqPynfIpE9AWsYtpvr5HVcTyc5REWMJoREQAREQAREQAXQMEgZT4VTsY0NLow53S4i5XP1dG4lO1oa2OIACwzHetD6PuMZzm+S/v0I9xlpImHAOFnAEcxWE0dITc0sBP5YUdxpUbEXYd6x1GMVMcfCayG99YO9aaVem98lkiqLJiKCCIkxQxxk6S1oCyKpVOUlex/AbHTjp4J3rUlygxSQWE4YP+rAodbS1C3Xuv9sfkWqMpF3JABJIAGsqNrscw+lBHhvDPH4Y8/x0Kl1FVU1BvPPJJ7TiVhVTX9I5tYpQx83vHo2y72S2KY9WVgMbD4CI/hac56yolEVBXuKleWtUllkiMVFYQRETJ0LJTTy087ZoXlj2m4IWNF1NxeVxAumEY9TVbWx1BbBPzE+S7qP0UyuZLbpMSrqQAQVMjWjQ0m47CtJaekMopRrxz81x6Eadvn3ToSKo0mUeIOcGPbA/NpLTf4FSrMVqC0EsizjmO9aClfU6sdZJkZ02iZRQ/GlRsRdh3pxpUbEXYd6d2mJzVZMIofjSo2Iuw7040qNiLsO9G0xDVZMIofjSo2Iuw7040qNiLsO9G0xDVZMIofjSo2Iuw7040qNiLsO9G0xDVZMIofjSo2Iuw7040qNiLsO9G0xDVZD5bfesX5A/2coJSmUtQ+ormPeGgiIDN1lRawekpa11NrmT6XuIIiKCOHuCWSCZs0Tyx7DcEalcMGx6nq2tiqXNhn0ZzZruo6upUxFOsdIVbOWYb0+KG6lNT4nTUXPqPE6+kAEFS8NH4TnHYVK0eUde93BeyA2Gngm/zWrtdNUrjdqtP9iJOg4lsRQ/GlRsRdh3pxpUbEXYd6sdpiN6rJhFD8aVGxF2HenGlRsRdh3o2mIarKtjf3vV/mu+azYJi02GyEWMkDj5TL/EdK1cTeZMQnkdYF0hJstdYCVedG4lUpvDy/uWGqnHDOh0FfS10fDp5Q462nM4dYW0uZsc5jg5ji1w0EGxCkqbHcThAHjHhANUgv8AHStFa+kMZYjVjv8AkR52+ODL0irdBj1ZPbhxwDToad63ONKjYi7DvV3G7hJZSYw4NEwih+NKjYi7DvTjSo2Iuw70raYnNVkwih+NKjYi7DvTjSo2Iuw70bTENVkwih+NKjYi7DvTjSo2Iuw70bTENVkwih+NKjYi7DvTjSo2Iuw70bTENVkwih+NKjYi7DvTjSo2Iuw70bTENVlKREXmpZhERAGSnmfBOyaM2exwcF0KgqWVdHFUx6HtvbmOsLnKnsma+eCGaFvBcwODgHDQTp+SvdBXbo1nTfCX3QxXhlZLeih+NKjYi7DvTjSo2Iuw71rdpiQ9Vkwih+NKjYi7DvTjSo2Iuw70bTENVmnlnXcGNlBGc7vLk6tQ+vuCqyz4hNJUVs00pu5zzdYFgtI3LubiU34LwRYU46scBERQhYREQB9a5zXBzXFrgbgg2IVhwvKWSMCKuYZWj/kb53vGtV1FJtrytay1qTx9hMoKS3nRKOvo6wXp6hjzs3s7s0rZXMhmNwt2nxXEYBaOrltzOPCHxWhoekaxirDp+H+SNK25M6AipkeUuJM87wMntM3EKUpcaqpSeFHCM2oHerijpGlWWYp/39xl0mifRQ/GlRsRdh3pxpUbEXYd6kbTETqsmEUPxpUbEXYd6caVGxF2HejaYhqsmEUPxpUbEXYd6caVGxF2HejaYhqsqmLfetX+e/8A2K1Vnr3l9dUPNrulcTbrKwLzqs81JeLLKPBH0Eg3BsQp7CspJoAIqxpmYNDx5w3qARLtrurbS1qTwclBSWGdEoq+krG3p52POtt7OHuWyuZgkEEEgjWFuwYviUIsyslsNTjwvmtFQ9I1jFWHT8P8kaVtyZf0VMjylxJvneBf7TNxCkqXHKuUgOjgF23zNO9XFHSNKqsxT/v7jLpNFhRQ/GlRsRdh3pxpUbEXYd6kbTETqsmEUPxpUbEXYd6caVGxF2HejaYhqsmFgxH7vqPynfIqO40qNiLsO9YqvEp30kzSyOxjcNB5utN1biOo/A6ovJ//2Q==" alt="DataVec" /></div>
+        <p>Cloud hosting at native speed. Zero cold starts. Automatic TLS. No per-request billing. Built for teams that have outgrown AWS.</p>
+      </div>
+      <div class="footer-links-group"><h4>Product</h4><ul><li><a href="#how">How It Works</a></li><li><a href="#compare">Comparison</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#tech">Technology</a></li></ul></div>
+      <div class="footer-links-group"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Docs</a></li><li><a href="mailto:hello@datavec.com">Contact</a></li></ul></div>
+      <div class="footer-links-group"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Security</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 DataVec, Inc. Incorporated in Delaware. Not affiliated with AWS, Google Cloud, Azure, Vercel, or Cloudflare.</p>
+      <p style="font-family:var(--mono);font-size:11px;color:var(--text3);">hello@datavec.com</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const fmt=n=>'$'+Math.round(n).toLocaleString();
+function calcAWS(e,m,b,s,bm){const em=e*1000;return Math.max(50,em*0.20+m*0.0000166667*1000+em*3.50+b*1024*0.09+em*0.50+bm*0.005+s*55);}
+function calcVercel(e,m,b,s,bm){const em=e*1000;return Math.max(20,Math.max(0,em-1)*0.60+Math.max(0,m-1000)*0.0106+Math.max(0,b-1)*400+s*20+Math.max(0,bm-6000)*0.007);}
+function calcAzure(e,m,b,s,bm){const em=e*1000;return Math.max(50,em*0.20+m*0.000016*1000+em*2.99+b*1024*0.087+em*0.30+s*6);}
+function calcGCP(e,m,b,s,bm){const em=e*1000;return Math.max(30,em*0.40+m*0.0000025*1000+em*1.50+Math.max(0,b-1)*1024*0.12+em*0.50+bm*0.003);}
+function calcDV(e,m,b,s,bm){return Math.min(calcAWS(e,m,b,s,bm),calcVercel(e,m,b,s,bm),calcAzure(e,m,b,s,bm),calcGCP(e,m,b,s,bm))*0.50;}
+function fmtExec(v){return v<1?Math.round(v*1000)+'M':v.toFixed(1).replace('.0','')+'B';}
+function getVals(){return{e:(document.getElementById('exec-sl').value/100)*10,m:(document.getElementById('mem-sl').value/100)*50000,b:(document.getElementById('bw-sl').value/100)*50,s:Math.round((document.getElementById('seats-sl').value/100)*100),bm:(document.getElementById('build-sl').value/100)*50000};}
+function updateCalc(){
+  const{e,m,b,s,bm}=getVals();
+  document.getElementById('exec-val').textContent=fmtExec(e);
+  document.getElementById('mem-val').textContent=Math.round(m).toLocaleString();
+  document.getElementById('bw-val').textContent=b.toFixed(1).replace('.0','')+' TB';
+  document.getElementById('seats-val').textContent=s;
+  document.getElementById('build-val').textContent=Math.round(bm).toLocaleString();
+  const dv=calcDV(e,m,b,s,bm),aws=calcAWS(e,m,b,s,bm),v=calcVercel(e,m,b,s,bm),az=calcAzure(e,m,b,s,bm),g=calcGCP(e,m,b,s,bm);
+  document.getElementById('dv-price').textContent=fmt(dv);
+  document.getElementById('aws-price').textContent=fmt(aws);
+  document.getElementById('vercel-price').textContent=fmt(v);
+  document.getElementById('azure-price').textContent=fmt(az);
+  document.getElementById('gcp-price').textContent=fmt(g);
+  const sf=o=>o>dv?'save '+fmt(o-dv)+'/mo':'';
+  document.getElementById('aws-save').textContent=sf(aws);
+  document.getElementById('vercel-save').textContent=sf(v);
+  document.getElementById('azure-save').textContent=sf(az);
+  document.getElementById('gcp-save').textContent=sf(g);
+  document.getElementById('annual-save').textContent=fmt(Math.max(0,aws-dv)*12);
+}
+['exec-sl','mem-sl','bw-sl','seats-sl','build-sl'].forEach(id=>document.getElementById(id).addEventListener('input',updateCalc));
+updateCalc();
+function toggleFaq(btn){const item=btn.parentElement;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open');}
+</script>
+</body>
+</html>
