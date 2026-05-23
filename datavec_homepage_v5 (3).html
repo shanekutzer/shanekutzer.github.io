@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DataVec — Cloud Hosting at Native Speed</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #04070d;
+  --bg2: #080d16;
+  --surface: #0c1422;
+  --surface2: #101a2e;
+  --border: #172035;
+  --border2: #1e2f4a;
+  --accent: #00b8e6;
+  --accent2: #00e090;
+  --accent3: #ff5533;
+  --brand: #1E2B8F;
+  --brand2: #2a3db5;
+  --brand-light: #4a5fd4;
+  --warn: #f0aa20;
+  --text: #d8eaf8;
+  --text2: #6a8fae;
+  --text3: #334d66;
+  --mono: 'IBM Plex Mono', monospace;
+  --body: 'IBM Plex Sans', sans-serif;
+  --radius: 6px;
+  --radius-lg: 12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.65;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(30,43,143,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(30,43,143,0.04) 1px,transparent 1px);background-size:72px 72px;pointer-events:none;z-index:0;}
+.orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0;}
+.orb-1{width:700px;height:700px;background:#1E2B8F;top:-300px;right:-200px;opacity:0.15;}
+.orb-2{width:500px;height:500px;background:#00b8e6;bottom:10%;left:-200px;opacity:0.07;}
+.container{max-width:1160px;margin:0 auto;padding:0 40px;position:relative;z-index:1;}
+section{position:relative;z-index:1;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 48px;height:66px;display:flex;align-items:center;justify-content:space-between;background:rgba(4,7,13,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-icon{width:28px;height:28px;background:var(--brand);border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.nav-logo-icon svg{width:16px;height:16px;fill:none;stroke:#00b8e6;stroke-width:2;}
+.nav-logo-text{font-family:var(--body);font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
+.nav-logo-text span{color:var(--accent);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--brand);color:#fff;font-size:13px;font-weight:600;padding:8px 20px;border-radius:var(--radius);text-decoration:none;transition:background .2s;white-space:nowrap;}
+.nav-cta:hover{background:var(--brand2);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(0,184,230,0.08);border:1px solid rgba(0,184,230,0.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px;}
+.hero-eyebrow span{width:6px;height:6px;background:var(--accent2);border-radius:50%;display:inline-block;}
+h1{font-size:52px;font-weight:700;line-height:1.1;letter-spacing:-1.5px;color:var(--text);margin-bottom:24px;}
+h1 .hl{color:var(--accent);}
+h1 .hl2{color:var(--accent2);}
+.hero-sub{font-size:18px;color:var(--text2);line-height:1.7;margin-bottom:36px;font-weight:300;}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.btn-primary{background:var(--brand);color:#fff;font-size:14px;font-weight:600;padding:13px 28px;border-radius:var(--radius);text-decoration:none;transition:background .2s;border:none;cursor:pointer;}
+.btn-primary:hover{background:var(--brand2);}
+.btn-ghost{background:transparent;color:var(--text);font-size:14px;font-weight:500;padding:13px 24px;border-radius:var(--radius);text-decoration:none;border:1px solid var(--border2);transition:border-color .2s;cursor:pointer;}
+.btn-ghost:hover{border-color:var(--accent);}
+.hero-note{font-size:12px;color:var(--text3);margin-top:14px;}
+.hero-terminal{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden;}
+.term-bar{background:var(--surface2);padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+.term-dot{width:10px;height:10px;border-radius:50%;}
+.term-dot.r{background:#ff5f57;}.term-dot.y{background:#febc2e;}.term-dot.g{background:#28c840;}
+.term-title{font-size:11px;color:var(--text3);margin-left:auto;font-family:var(--mono);}
+.term-body{padding:24px;font-family:var(--mono);font-size:13px;line-height:1.9;}
+.tc{color:var(--text3);}.tp{color:var(--accent);}.tg{color:var(--accent2);}.ty{color:var(--warn);}.tw{color:var(--text);}
+
+/* STATS */
+.stats{padding:32px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);}
+.stats-inner{display:flex;gap:0;justify-content:center;}
+.stat{flex:1;text-align:center;padding:20px 32px;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-num{font-size:32px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:-1px;}
+.stat-label{font-size:12px;color:var(--text2);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em;}
+
+/* SECTION COMMON */
+.section-eyebrow{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;}
+h2{font-size:36px;font-weight:700;letter-spacing:-0.8px;line-height:1.2;color:var(--text);}
+h2 .hl{color:var(--accent);}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;margin-top:16px;}
+
+/* HOW IT WORKS */
+.how{padding:100px 0;}
+.how-header{text-align:center;max-width:620px;margin:0 auto 64px;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.step{background:var(--surface);padding:32px 24px;position:relative;}
+.step-num{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--brand-light);letter-spacing:0.1em;margin-bottom:16px;}
+.step-icon{width:40px;height:40px;background:rgba(30,43,143,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.step-icon svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;}
+.step h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.step p{font-size:13px;color:var(--text2);line-height:1.6;}
+
+/* WHY DATAVEC */
+.why{padding:80px 0;background:var(--bg2);}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:56px;}
+.why-card{background:var(--surface);padding:32px;transition:background .2s;}
+.why-card:hover{background:var(--surface2);}
+.why-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.why-icon svg{width:22px;height:22px;stroke-width:1.7;fill:none;}
+.wi-blue{background:rgba(0,184,230,0.1);} .wi-blue svg{stroke:var(--accent);}
+.wi-green{background:rgba(0,224,144,0.1);} .wi-green svg{stroke:var(--accent2);}
+.wi-brand{background:rgba(30,43,143,0.2);} .wi-brand svg{stroke:var(--brand-light);}
+.wi-warn{background:rgba(240,170,32,0.1);} .wi-warn svg{stroke:var(--warn);}
+.wi-red{background:rgba(255,85,51,0.1);} .wi-red svg{stroke:var(--accent3);}
+.why-card h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px;}
+.why-card p{font-size:13px;color:var(--text2);line-height:1.65;}
+
+/* PRICING CALCULATOR */
+.calc-section{padding:100px 0;}
+.calc-header{text-align:center;max-width:640px;margin:0 auto 60px;}
+.calc-wrap{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);overflow:hidden;}
+.calc-controls{padding:36px 40px;border-bottom:1px solid var(--border);}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.calc-field{margin-bottom:0;}
+.calc-field label{display:block;font-size:12px;font-weight:600;color:var(--text2);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;}
+.calc-field select{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:var(--body);font-size:14px;padding:10px 14px;appearance:none;cursor:pointer;outline:none;}
+.calc-field select:focus{border-color:var(--accent);}
+.calc-results{padding:36px 40px;}
+.calc-results-top{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+.provider-list{margin-bottom:28px;}
+.provider-list-title{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;}
+.provider-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.provider-row:last-child{border-bottom:none;}
+.provider-left{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text2);}
+.provider-price{font-size:14px;font-weight:600;color:var(--text);font-family:var(--mono);}
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:0.04em;}
+.badge-cheapest{background:rgba(240,170,32,0.15);color:var(--warn);}
+.badge-save{background:rgba(0,224,144,0.12);color:var(--accent2);}
+.badge-dv{background:rgba(30,43,143,0.3);color:var(--brand-light);}
+.hero-result{background:linear-gradient(135deg,rgba(30,43,143,0.2),rgba(0,184,230,0.08));border:1px solid rgba(0,184,230,0.2);border-radius:var(--radius-lg);padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:24px;}
+.hr-left .hrl{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.hr-left .hrv{font-size:34px;font-weight:700;font-family:var(--mono);color:var(--text);letter-spacing:-1px;}
+.hr-right{text-align:right;}
+.hr-right .hrl{font-size:11px;font-weight:600;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+.hr-right .hrv{font-size:20px;font-weight:600;font-family:var(--mono);color:var(--accent2);}
+.chart-wrap{height:220px;position:relative;}
+.calc-note{font-size:12px;color:var(--text3);margin-top:20px;line-height:1.6;}
+.calc-cta{display:flex;gap:12px;margin-top:24px;align-items:center;}
+
+/* TECH SECTION */
+.tech{padding:100px 0;background:var(--bg2);}
+.tech-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:64px;}
+.tech-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;position:relative;overflow:hidden;}
+.tech-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.tech-card.blue::before{background:linear-gradient(90deg,var(--accent),transparent);}
+.tech-card.green::before{background:linear-gradient(90deg,var(--accent2),transparent);}
+.tech-name{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.12em;margin-bottom:20px;}
+.tech-name.blue{color:var(--accent);}
+.tech-name.green{color:var(--accent2);}
+.tech-card h3{font-size:22px;font-weight:700;color:var(--text);margin-bottom:14px;letter-spacing:-0.3px;}
+.tech-card p{font-size:14px;color:var(--text2);line-height:1.7;}
+.tech-metrics{display:flex;gap:0;margin-top:28px;border-top:1px solid var(--border);padding-top:24px;}
+.tech-metric{flex:1;padding-right:20px;}
+.tech-metric:last-child{padding-right:0;}
+.tech-metric-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--text);}
+.tech-metric-val.blue{color:var(--accent);}
+.tech-metric-val.green{color:var(--accent2);}
+.tech-metric-label{font-size:11px;color:var(--text3);margin-top:3px;}
+
+/* COMPARISON TABLE */
+.compare{padding:100px 0;}
+.compare-table{width:100%;border-collapse:collapse;margin-top:56px;font-size:14px;}
+.compare-table th{padding:14px 20px;text-align:left;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.08em;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.compare-table th.dv-col{color:var(--accent);background:rgba(0,184,230,0.04);}
+.compare-table td{padding:14px 20px;border-bottom:1px solid var(--border);color:var(--text2);}
+.compare-table td.dv-col{background:rgba(0,184,230,0.04);color:var(--text);font-weight:500;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:var(--surface);}
+.compare-table tr:hover td.dv-col{background:rgba(0,184,230,0.08);}
+.ck{color:var(--accent2);font-size:16px;}
+.cx{color:var(--text3);font-size:16px;}
+
+/* TRUST */
+.trust{padding:80px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:48px;}
+.trust-item{background:var(--surface);padding:28px 24px;}
+.trust-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.trust-val{font-size:14px;color:var(--text);font-weight:500;}
+
+/* PRICING TIERS */
+.pricing{padding:100px 0;}
+.pricing-header{text-align:center;max-width:560px;margin:0 auto 64px;}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.price-card{background:var(--surface);padding:36px 32px;}
+.price-card.featured{background:var(--surface2);border:1px solid rgba(0,184,230,0.2);}
+.price-tag{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.price-card h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.price-desc{font-size:13px;color:var(--text2);margin-bottom:24px;line-height:1.6;}
+.price-amount{font-family:var(--mono);font-size:38px;font-weight:600;color:var(--text);letter-spacing:-1px;margin-bottom:4px;}
+.price-amount span{font-size:16px;font-weight:400;color:var(--text2);}
+.price-period{font-size:12px;color:var(--text3);margin-bottom:28px;}
+.price-features{list-style:none;margin-bottom:32px;}
+.price-features li{display:flex;gap:10px;padding:7px 0;font-size:13px;color:var(--text2);border-bottom:1px solid var(--border);}
+.price-features li:last-child{border-bottom:none;}
+.price-features li::before{content:'✓';color:var(--accent2);font-weight:700;flex-shrink:0;}
+.btn-outline{display:block;text-align:center;background:transparent;color:var(--text);font-size:13px;font-weight:600;padding:12px;border-radius:var(--radius);text-decoration:none;border:1px solid var(--border2);transition:border-color .2s;}
+.btn-outline:hover{border-color:var(--accent);}
+.btn-filled{display:block;text-align:center;background:var(--brand);color:#fff;font-size:13px;font-weight:600;padding:12px;border-radius:var(--radius);text-decoration:none;transition:background .2s;}
+.btn-filled:hover{background:var(--brand2);}
+.enterprise-band{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:36px 40px;display:flex;justify-content:space-between;align-items:center;margin-top:20px;}
+.eb-left h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.eb-left p{font-size:14px;color:var(--text2);}
+.founding-band{background:rgba(240,170,32,0.06);border:1px solid rgba(240,170,32,0.2);border-radius:var(--radius-lg);padding:20px 28px;display:flex;align-items:center;gap:16px;margin-bottom:40px;}
+.fb-icon{font-size:20px;flex-shrink:0;}
+.fb-text h4{font-size:14px;font-weight:600;color:var(--warn);margin-bottom:2px;}
+.fb-text p{font-size:13px;color:var(--text2);}
+
+/* FAQ */
+.faq{padding:100px 0;background:var(--bg2);}
+.faq-list{max-width:760px;margin:56px auto 0;}
+.faq-item{border-bottom:1px solid var(--border);overflow:hidden;}
+.faq-q{width:100%;background:none;border:none;color:var(--text);font-family:var(--body);font-size:15px;font-weight:500;text-align:left;padding:22px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+.faq-arrow{color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s;}
+.faq-item.open .faq-arrow{transform:rotate(45deg);}
+.faq-a{font-size:14px;color:var(--text2);line-height:1.7;padding-bottom:20px;display:none;}
+.faq-item.open .faq-a{display:block;}
+
+/* CTA FINAL */
+.cta-final{padding:120px 0;text-align:center;}
+.cta-inner{max-width:600px;margin:0 auto;}
+.cta-final h2{font-size:44px;font-weight:700;letter-spacing:-1px;margin-bottom:20px;}
+.cta-final p{font-size:18px;color:var(--text2);margin-bottom:40px;}
+.cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:48px 0 32px;}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px;}
+.footer-brand p{font-size:13px;color:var(--text3);margin-top:12px;line-height:1.7;max-width:280px;}
+.footer-col h4{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px;}
+.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:8px;transition:color .2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:12px;color:var(--text3);}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><line x1="8" y1="1" x2="8" y2="5"/><line x1="8" y1="11" x2="8" y2="15"/><line x1="1" y1="8" x2="5" y2="8"/><line x1="11" y1="8" x2="15" y2="8"/><line x1="3.2" y1="3.2" x2="5.8" y2="5.8"/><line x1="10.2" y1="10.2" x2="12.8" y2="12.8"/><line x1="12.8" y1="3.2" x2="10.2" y2="5.8"/><line x1="5.8" y1="10.2" x2="3.2" y2="12.8"/></svg>
+    </div>
+    <span class="nav-logo-text">Data<span>Vec</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing-calc">Pricing</a></li>
+    <li><a href="#tech">Technology</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="mailto:hello@datavec.com">Contact</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">Get Started</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow"><span></span>Powered by MNVKD + JSMX</div>
+        <h1>Cloud hosting at<br><span class="hl">native speed.</span><br><span class="hl2">Flat rate.</span></h1>
+        <p class="hero-sub">Deploy JavaScript applications that run like compiled C code. No per-request meters. No surprise bills. One flat monthly price — always 25% below any competitor.</p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn-primary">Start your deployment</a>
+          <a href="#pricing-calc" class="btn-ghost">Compare your current bill</a>
+        </div>
+        <p class="hero-note">No credit card required to start · hello@datavec.com</p>
+      </div>
+      <div>
+        <div class="hero-terminal">
+          <div class="term-bar">
+            <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
+            <span class="term-title">datavec deploy</span>
+          </div>
+          <div class="term-body">
+            <div><span class="tc">$</span> <span class="tw">datavec deploy ./my-app</span></div>
+            <div><span class="tc">→</span> <span class="tp">Compiling with JSMX...</span></div>
+            <div><span class="tc">→</span> <span class="ty">JS → C translation complete</span></div>
+            <div><span class="tc">→</span> <span class="tp">Bundling MNVKD runtime (104 KB)</span></div>
+            <div><span class="tc">→</span> <span class="tp">Provisioning droplet...</span></div>
+            <div><span class="tc">→</span> <span class="tp">Issuing TLS certificate...</span></div>
+            <div><span class="tg">✓ Live at https://yourapp.datavec.io</span></div>
+            <div>&nbsp;</div>
+            <div><span class="tc">#</span> <span class="tw">Cold start: </span><span class="tg">0ms</span></div>
+            <div><span class="tc">#</span> <span class="tw">Memory: </span><span class="tg">104 KB</span></div>
+            <div><span class="tc">#</span> <span class="tw">Deploy time: </span><span class="tg">4.2s</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stat"><div class="stat-num">104KB</div><div class="stat-label">Runtime footprint</div></div>
+      <div class="stat"><div class="stat-num">0ms</div><div class="stat-label">Cold start time</div></div>
+      <div class="stat"><div class="stat-num">300K+</div><div class="stat-label">Req/sec per instance</div></div>
+      <div class="stat"><div class="stat-num">25%</div><div class="stat-label">Below any competitor</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-header">
+      <div class="section-eyebrow">How it works</div>
+      <h2>From code to <span class="hl">production</span> in seconds</h2>
+      <p class="section-sub">No DevOps. No configuration. No cold starts. Just your JavaScript running at native speed.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <h3>Write your code</h3>
+        <p>Standard JavaScript — no new framework, no proprietary APIs. If it runs in Node, it deploys to DataVec.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+        <h3>JSMX compiles it</h3>
+        <p>Our JS-to-C compiler translates your code to native machine instructions. The output runs at true native speed — no interpreter overhead.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <h3>MNVKD serves it</h3>
+        <p>Our 104 KB runtime handles routing, memory, TLS, and execution. Zero cold starts. No idle time wasted.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Pay one flat rate</h3>
+        <p>No meters. No request counts. No bandwidth surprises. One fixed monthly price — no matter how much you grow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DATAVEC -->
+<section class="why">
+  <div class="container">
+    <div class="section-eyebrow">Why DataVec</div>
+    <h2>Everything your team needs.<br><span class="hl">Nothing you don't.</span></h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon wi-blue"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <h3>True zero cold starts</h3>
+        <p>MNVKD keeps your code warm by design. The first request is as fast as the ten thousandth. No warm-up costs.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon wi-green"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <h3>Completely flat billing</h3>
+        <p>No per-request meters. No bandwidth surprises. One fixed monthly price that shocks your finance team — in a good way.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon wi-brand"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h3>Native-speed JavaScript</h3>
+        <p>JSMX compiles your JS to C before deployment. Your app runs at true machine speed — not inside an interpreter.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon wi-blue"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3>Automatic HTTPS</h3>
+        <p>TLS certificates are provisioned and renewed automatically when you point your domain. Zero configuration required.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon wi-green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+        <h3>Custom domain hosting</h3>
+        <p>Point your domain at DataVec and it works instantly. No load balancer config, no DNS headaches, no DevOps needed.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon wi-warn"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3>Developer console</h3>
+        <p>A clean, streamlined dashboard. Not AWS's 200-service maze — a purpose-built console for deploying and managing your apps.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING CALCULATOR -->
+<section class="calc-section" id="pricing-calc">
+  <div class="container">
+    <div class="calc-header">
+      <div class="section-eyebrow">Enterprise pricing calculator</div>
+      <h2>Running more than <span class="hl">500M requests/month?</span></h2>
+      <p class="section-sub">This calculator is for high-volume workloads above our Business plan. Enter your profile and see what every major provider charges versus DataVec's flat rate — no bill required. On a smaller workload? Our Business plan at $149/month covers you.</p>
+    </div>
+    <div class="calc-wrap">
+      <div class="calc-controls">
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label>Monthly requests / executions</label>
+            <select id="req">
+              <option value="750" selected>500M – 1 billion</option>
+              <option value="2500">1B – 5 billion</option>
+              <option value="7500">5B+</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Compute intensity</label>
+            <select id="compute">
+              <option value="light">Light — auth checks, DB reads, simple APIs</option>
+              <option value="medium" selected>Medium — REST APIs, data transforms</option>
+              <option value="heavy">Heavy — AI inference, image / video processing</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Monthly bandwidth / egress</label>
+            <select id="bw">
+              <option value="15000" selected>10 – 25 TB</option>
+              <option value="37500">25 – 50 TB</option>
+              <option value="75000">50 TB+</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label>Team size</label>
+            <select id="devs">
+              <option value="30" selected>25 – 50 developers</option>
+              <option value="80">50 – 100 developers</option>
+              <option value="200">100+ developers</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="calc-results">
+        <div class="provider-list">
+          <div class="provider-list-title">Estimated monthly bill — all providers</div>
+          <div id="providerRows"></div>
+        </div>
+        <div class="hero-result">
+          <div class="hr-left">
+            <div class="hrl">DataVec flat rate</div>
+            <div class="hrv" id="flatRate">—</div>
+          </div>
+          <div class="hr-right">
+            <div class="hrl">You save vs cheapest competitor</div>
+            <div class="hrv" id="savings">—</div>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="compareChart"></canvas>
+        </div>
+        <p class="calc-note">Estimates use verified May 2026 published pricing. AWS includes API Gateway and CloudWatch charges. Cloudflare has no egress fees. DataVec flat rate is always 25% below the cheapest competitor, with a $2,500/mo minimum. Contact us to get a precise quote for your workload.</p>
+        <div class="calc-cta">
+          <a href="mailto:hello@datavec.com?subject=DataVec pricing inquiry" class="btn-primary">Get a precise quote</a>
+          <a href="#pricing" class="btn-ghost">View plans</a>
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:14px;line-height:1.6;">Running fewer than 500M requests/month or under 10TB bandwidth? You don't need the calculator — our <a href="#pricing" style="color:var(--accent);text-decoration:none;">Business plan at $149/month</a> covers you with zero metering and a flat rate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech" id="tech">
+  <div class="container">
+    <div class="section-eyebrow">The technology</div>
+    <h2>Two innovations. <span class="hl">One platform.</span></h2>
+    <p class="section-sub" style="max-width:560px;">DataVec is built on two proprietary technologies that together make it possible to run JavaScript at C-level performance at a fraction of the infrastructure cost.</p>
+    <div class="tech-grid">
+      <div class="tech-card blue">
+        <div class="tech-name blue">JSMX — JavaScript-to-C Compiler</div>
+        <h3>Your JavaScript, running at machine speed</h3>
+        <p>JSMX translates JavaScript source code into optimized C before deployment. The result is a native binary that runs directly on the CPU — no interpreter, no JIT warmup, no garbage collection pauses. The same code that runs at 50ms on a Node server runs at sub-millisecond on DataVec.</p>
+        <div class="tech-metrics">
+          <div class="tech-metric"><div class="tech-metric-val blue">~100x</div><div class="tech-metric-label">faster than interpreted JS</div></div>
+          <div class="tech-metric"><div class="tech-metric-val blue">0ms</div><div class="tech-metric-label">JIT warmup</div></div>
+          <div class="tech-metric"><div class="tech-metric-val blue">Native</div><div class="tech-metric-label">CPU execution</div></div>
+        </div>
+      </div>
+      <div class="tech-card green">
+        <div class="tech-name green">MNVKD — Micro-Native Runtime</div>
+        <h3>A 104 KB runtime that handles everything</h3>
+        <p>MNVKD is our purpose-built cloud runtime. At just 104 KB, it handles routing, memory management, TLS termination, and request execution in a single lean layer. Competitors stitch together dozens of services to do what MNVKD does in one binary — which is why our infrastructure costs are a fraction of theirs.</p>
+        <div class="tech-metrics">
+          <div class="tech-metric"><div class="tech-metric-val green">104 KB</div><div class="tech-metric-label">total runtime size</div></div>
+          <div class="tech-metric"><div class="tech-metric-val green">300K+</div><div class="tech-metric-label">req/sec per instance</div></div>
+          <div class="tech-metric"><div class="tech-metric-val green">1 layer</div><div class="tech-metric-label">vs dozens for AWS</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="compare" id="compare">
+  <div class="container">
+    <div class="section-eyebrow">Feature comparison</div>
+    <h2>DataVec vs <span class="hl">the alternatives</span></h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="dv-col">DataVec</th>
+          <th>AWS Lambda</th>
+          <th>Vercel</th>
+          <th>Cloudflare</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Cold start time</td><td class="dv-col">0ms</td><td>100–500ms</td><td>50–200ms</td><td>~5ms</td></tr>
+        <tr><td>Billing model</td><td class="dv-col">Flat rate</td><td>Per request + GB-sec</td><td>Per CPU-hr + seat</td><td>Per request + CPU-ms</td></tr>
+        <tr><td>Bandwidth charges</td><td class="dv-col"><span class="ck">✓</span> Included flat</td><td><span class="cx">✗</span> $0.09/GB</td><td><span class="cx">✗</span> $0.15/GB</td><td><span class="ck">✓</span> Free</td></tr>
+        <tr><td>Surprise bills</td><td class="dv-col"><span class="ck">✓</span> Impossible</td><td><span class="cx">✗</span> Common</td><td><span class="cx">✗</span> Common</td><td><span class="cx">✗</span> Possible</td></tr>
+        <tr><td>Auto TLS / HTTPS</td><td class="dv-col"><span class="ck">✓</span> Automatic</td><td><span class="cx">✗</span> Manual setup</td><td><span class="ck">✓</span> Yes</td><td><span class="ck">✓</span> Yes</td></tr>
+        <tr><td>Custom domains</td><td class="dv-col"><span class="ck">✓</span> Included</td><td><span class="cx">✗</span> Extra config</td><td><span class="ck">✓</span> Yes</td><td><span class="ck">✓</span> Yes</td></tr>
+        <tr><td>DevOps required</td><td class="dv-col"><span class="ck">✓</span> None</td><td><span class="cx">✗</span> Extensive</td><td>Minimal</td><td>Minimal</td></tr>
+        <tr><td>JS execution model</td><td class="dv-col">Compiled to C</td><td>Node.js runtime</td><td>V8 isolates</td><td>V8 isolates</td></tr>
+        <tr><td>Runtime size</td><td class="dv-col">104 KB</td><td>~50 MB</td><td>~20 MB</td><td>~5 MB</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="container">
+    <div class="section-eyebrow">Built to trust</div>
+    <h2>Production-ready from day one</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-label">Incorporated</div><div class="trust-val">Delaware, USA</div></div>
+      <div class="trust-item"><div class="trust-label">Payments</div><div class="trust-val">Stripe — PCI compliant</div></div>
+      <div class="trust-item"><div class="trust-label">Data</div><div class="trust-val">Not sold. Ever.</div></div>
+      <div class="trust-item"><div class="trust-label">Uptime</div><div class="trust-val">99.9% SLA on all plans</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING TIERS -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="section-eyebrow">Pricing</div>
+      <h2>One flat rate. <span class="hl">No surprises.</span></h2>
+      <p class="section-sub">Always 25% below any competitor. No per-request meters. No bandwidth overage. Ever.</p>
+    </div>
+    <div class="founding-band">
+      <div class="fb-icon">🔒</div>
+      <div class="fb-text">
+        <h4>Founding Member Pricing — First 50 customers only</h4>
+        <p>Lock in your rate forever. These prices never increase as long as you stay subscribed.</p>
+      </div>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tag">Starter</div>
+        <h3>Pro</h3>
+        <p class="price-desc">For teams ready to ship a real production application on flat-rate infrastructure.</p>
+        <div class="price-amount">$19<span>/mo</span></div>
+        <div class="price-period">Founding member price — normally $29/mo</div>
+        <ul class="price-features">
+          <li>1 project</li>
+          <li>Custom domain + automatic HTTPS</li>
+          <li>Up to 50M requests/month</li>
+          <li>Up to 1 TB bandwidth/month</li>
+          <li>Automatic TLS provisioning</li>
+          <li>Developer dashboard</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="btn-outline">Get started</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-tag">Most popular</div>
+        <h3>Business</h3>
+        <p class="price-desc">For growing teams with real traffic, multiple projects, and uptime requirements.</p>
+        <div class="price-amount">$149<span>/mo</span></div>
+        <div class="price-period">Founding member price — normally $199/mo</div>
+        <ul class="price-features">
+          <li>Up to 5 projects</li>
+          <li>Unlimited custom domains</li>
+          <li>Up to 500M requests/month</li>
+          <li>Up to 10 TB bandwidth/month</li>
+          <li>Priority support with SLA</li>
+          <li>Advanced analytics dashboard</li>
+          <li>Team access controls</li>
+          <li>99.9% uptime SLA</li>
+        </ul>
+        <a href="#" class="btn-filled">Get started</a>
+      </div>
+    </div>
+    <div class="enterprise-band">
+      <div class="eb-left">
+        <h3>Enterprise — Flat Rate</h3>
+        <p>High-volume workloads. Fixed monthly billing. We price it 25% below whatever you're paying today.</p>
+      </div>
+      <a href="mailto:hello@datavec.com?subject=DataVec Enterprise inquiry" class="btn-primary">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div style="text-align:center;max-width:540px;margin:0 auto;">
+      <div class="section-eyebrow">FAQ</div>
+      <h2>Common questions</h2>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q">What exactly is a flat rate — what's included? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">Your flat rate covers compute, bandwidth, TLS, routing, and the developer console. No per-request meters, no bandwidth overages, no seat fees beyond your plan. The number on your invoice is the number you pay — every month.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How do you price Enterprise flat rates? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">We ask you five questions about your workload — monthly requests, compute intensity, bandwidth, team size, and current provider. From that we calculate what you're paying today on any provider using their published pricing, then set our flat rate at 25% below the cheapest. You can always share your bill for a more precise quote, but it's not required.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What happens if I go over the request or bandwidth limits on Pro or Business? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">We'll reach out and have a conversation — we don't automatically throttle or charge overage. If your usage consistently exceeds your plan, we'll work with you to move to the right tier or a custom flat rate.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do I need DevOps experience to use DataVec? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">No. If you can write JavaScript, you can deploy on DataVec. The platform handles TLS, routing, domain provisioning, and scaling automatically. No Kubernetes, no load balancer config, no infrastructure management.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How does automatic HTTPS work? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">When you point your domain's DNS to DataVec, MNVKD automatically requests and installs a TLS certificate via Let's Encrypt. It renews automatically before expiry. You never touch a certificate file.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is my JavaScript really compiled to C? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">Yes. JSMX performs a source-to-source translation of your JavaScript into optimized C code, which is then compiled to a native binary before deployment. The output runs directly on the CPU — not inside Node.js, not inside V8. This is why DataVec achieves 0ms cold starts and 300K+ requests per second per instance.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What frameworks and libraries are supported? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">JSMX supports standard JavaScript and most common server-side patterns. We are actively expanding compatibility. If you have a specific framework in mind, reach out at hello@datavec.com and we'll let you know current support status.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I try DataVec before committing? <span class="faq-arrow">+</span></button>
+        <div class="faq-a">Yes. Contact us at hello@datavec.com and we'll set you up with a test deployment. We'd rather you kick the tires properly than sign up without being confident it's right for your stack.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-final">
+  <div class="container">
+    <div class="cta-inner">
+      <h2>Ready to cut your<br><span style="color:var(--accent)">cloud bill in half?</span></h2>
+      <p>One flat rate. Zero cold starts. Native speed. Always 25% below any competitor.</p>
+      <div class="cta-actions">
+        <a href="#pricing" class="btn-primary">Get started today</a>
+        <a href="mailto:hello@datavec.com" class="btn-ghost">Talk to us first</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#" style="display:inline-flex;">
+          <div class="nav-logo-icon"><svg viewBox="0 0 16 16" style="width:16px;height:16px;fill:none;stroke:#00b8e6;stroke-width:2;"><circle cx="8" cy="8" r="2.5"/><line x1="8" y1="1" x2="8" y2="5"/><line x1="8" y1="11" x2="8" y2="15"/><line x1="1" y1="8" x2="5" y2="8"/><line x1="11" y1="8" x2="15" y2="8"/></svg></div>
+          <span class="nav-logo-text">Data<span>Vec</span></span>
+        </a>
+        <p>Cloud hosting at native speed. Flat rate billing. Always 25% below any competitor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#how">How it works</a>
+        <a href="#tech">Technology</a>
+        <a href="#compare">Comparison</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="mailto:hello@datavec.com">Contact</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@datavec.com">hello@datavec.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 DataVec. All rights reserved.</p>
+      <p>DataVec is not affiliated with AWS, Google Cloud, Vercel, or Cloudflare. All trademarks belong to their respective owners.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const PROVIDERS = ['vercel','aws','cloudflare','azure','gcp'];
+const NAMES = {vercel:'Vercel',aws:'AWS Lambda',cloudflare:'Cloudflare Workers',azure:'Azure Functions',gcp:'Google Cloud Run'};
+const COLORS = {vercel:'#BA7517',aws:'#E24B4A',cloudflare:'#f77f00',azure:'#185FA5',gcp:'#534AB7'};
+
+function durSec(c){return c==='light'?0.15:c==='medium'?0.6:2.5;}
+function memGB(c){return c==='light'?0.25:c==='medium'?0.5:1.0;}
+
+function estimate(p,reqM,c,bwGB,devs){
+  const dur=durSec(c),mem=memGB(c),reqTotal=reqM*1e6;
+  if(p==='vercel'){
+    const seats=devs*20;
+    const invoc=Math.max(0,reqM-10)*0.60;
+    const cpuHrs=(reqTotal*dur*0.4)/3600;
+    const cpuCost=cpuHrs*0.128;
+    const memHrs=(reqTotal*dur*mem)/3600;
+    const memCost=memHrs*0.0106;
+    const bwCost=Math.max(0,bwGB-1000)*0.15;
+    return Math.max(20,seats+invoc+cpuCost+memCost+bwCost);
+  }
+  if(p==='aws'){
+    const invocCost=Math.max(0,reqM-1)*0.20;
+    const gbSec=reqTotal*dur*mem;
+    const computeCost=Math.max(0,gbSec-400000)*0.0000166667;
+    const apiGwCost=reqM*3.50;
+    const bwCost=Math.max(0,bwGB-100)*0.09;
+    const logGB=(reqTotal*5000)/1e9;
+    const logCost=logGB*0.50;
+    return Math.max(5,invocCost+computeCost+apiGwCost+bwCost+logCost);
+  }
+  if(p==='cloudflare'){
+    const base=5;
+    const reqCost=Math.max(0,reqM-10)*0.30;
+    const cpuMsTotal=reqTotal*dur*1000;
+    const cpuCost=Math.max(0,cpuMsTotal-30e6)*0.02/1e6;
+    return Math.max(5,base+reqCost+cpuCost);
+  }
+  if(p==='azure'){
+    const execCost=Math.max(0,reqM-1)*0.20;
+    const gbSec=reqTotal*dur*mem;
+    const computeCost=Math.max(0,gbSec-400000)*0.000016;
+    const bwCost=Math.max(0,bwGB-100)*0.087;
+    return Math.max(5,execCost+computeCost+bwCost);
+  }
+  if(p==='gcp'){
+    const vCpuSec=reqTotal*dur;
+    const cpuCost=Math.max(0,vCpuSec-180000)*0.000024;
+    const gbSec=reqTotal*dur*mem;
+    const memCost=Math.max(0,gbSec-360000)*0.0000025;
+    const reqCost=Math.max(0,reqM-2)*0.40;
+    const bwCost=Math.max(0,bwGB-1)*0.12;
+    return Math.max(5,cpuCost+memCost+reqCost+bwCost);
+  }
+  return 0;
+}
+
+const fmt=n=>{
+  if(n>=1000000)return '$'+Math.round(n/1000)*0.001+'M'.replace('0.001','')+(n>=1000000?Math.round(n/1000000)+'M':Math.round(n/1000)+'K');
+  if(n>=1000)return '$'+Math.round(n/1000)+'K';
+  return '$'+Math.round(n);
+};
+const fmtFull=n=>'$'+Math.round(n).toLocaleString();
+
+let chart=null;
+
+function run(){
+  const reqM=parseFloat(document.getElementById('req').value);
+  const c=document.getElementById('compute').value;
+  const bwGB=parseFloat(document.getElementById('bw').value);
+  const devs=parseFloat(document.getElementById('devs').value);
+
+  const estimates={};
+  PROVIDERS.forEach(p=>{estimates[p]=estimate(p,reqM,c,bwGB,devs);});
+
+  const sorted=PROVIDERS.slice().sort((a,b)=>estimates[a]-estimates[b]);
+  const cheapest=sorted[0];
+  const cheapestBill=estimates[cheapest];
+  const flatRate=Math.max(cheapestBill*0.75,2500);
+  const savings=cheapestBill-flatRate;
+
+  const rows=sorted.map(p=>{
+    const isCheapest=p===cheapest;
+    const dvSaves=((estimates[p]-flatRate)/estimates[p])*100;
+    const savePct=Math.round(dvSaves);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text2);">
+        ${NAMES[p]}
+        ${isCheapest?'<span class="badge badge-cheapest">cheapest</span>':''}
+        ${dvSaves>0?'<span class="badge badge-save">DataVec saves '+savePct+'%</span>':''}
+      </div>
+      <span style="font-size:14px;font-weight:600;color:var(--text);font-family:var(--mono);">${fmtFull(estimates[p])}/mo</span>
+    </div>`;
+  }).join('');
+
+  const dvRow=`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--accent);">
+      DataVec <span class="badge badge-dv">flat rate</span>
+    </div>
+    <span style="font-size:14px;font-weight:600;color:var(--accent);font-family:var(--mono);">${fmtFull(flatRate)}/mo</span>
+  </div>`;
+
+  document.getElementById('providerRows').innerHTML=dvRow+rows;
+  document.getElementById('flatRate').textContent=fmtFull(flatRate)+'/mo';
+  document.getElementById('savings').textContent=fmtFull(savings)+'/mo';
+
+  const chartLabels=['DataVec',...sorted.map(p=>NAMES[p].replace(' Lambda','').replace(' Functions','').replace(' Workers','').replace(' Cloud Run',''))];
+  const chartData=[Math.round(flatRate),...sorted.map(p=>Math.round(estimates[p]))];
+  const chartColors=['#1D9E75',...sorted.map(p=>COLORS[p])];
+
+  if(chart){
+    chart.data.labels=chartLabels;
+    chart.data.datasets[0].data=chartData;
+    chart.data.datasets[0].backgroundColor=chartColors;
+    chart.update();
+  } else {
+    const ctx=document.getElementById('compareChart');
+    chart=new Chart(ctx,{
+      type:'bar',
+      data:{
+        labels:chartLabels,
+        datasets:[{data:chartData,backgroundColor:chartColors,borderRadius:4,borderSkipped:false}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>' '+fmtFull(c.parsed.y)+'/mo'}}},
+        scales:{
+          x:{ticks:{font:{size:11},color:'#6a8fae',maxRotation:0},grid:{display:false},border:{display:false}},
+          y:{ticks:{font:{size:11},color:'#6a8fae',callback:(v)=>{
+            if(v>=1000000)return '$'+Math.round(v/1000000)+'M';
+            if(v>=1000)return '$'+Math.round(v/1000)+'K';
+            return '$'+Math.round(v);
+          }},grid:{color:'rgba(23,32,53,0.8)'},border:{display:false}}
+        }
+      }
+    });
+  }
+}
+
+['req','compute','bw','devs'].forEach(id=>document.getElementById(id).addEventListener('change',run));
+run();
+
+// FAQ
+document.getElementById('faqList').querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click',()=>{
+    item.classList.toggle('open');
+  });
+});
+</script>
+</body>
+</html>
